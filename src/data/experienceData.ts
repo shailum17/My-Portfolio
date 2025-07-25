@@ -27,9 +27,9 @@ export const internships: Internship[] = [
     company: "Amity Coding Club",
     type: "Full-time",
     period: "Apr 2023 - Oct 2024 · 1 yr 7 mos",
-    location: "Remote",
+    location: "Amity University Madhya Pradesh",
     skills: ["Graphic Design", "Social Media Graphic Design"],
-    image: "/assets/internships/amity-coding-club.png",
+    image: "/assets/Internship/amity_coding_club_logo.jpeg",
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ export const internships: Internship[] = [
     location: "Gwalior, Madhya Pradesh, India · Remote",
     skills: ["Social Media Graphic Design", "Information Graphics"],
     link: "https://drive.google.com/drive/folders/creative-design-work",
-    image: "/assets/internships/expose-trendze.png",
+    image: "/assets/Internship/expose-trendze-logo.png",
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ export const internships: Internship[] = [
     location: "Remote",
     skills: ["Python", "Cybersecurity"],
     link: "https://github.com/shailum17/Prodigy-Cyber-Security-Internahip",
-    image: "/assets/internships/prodigy-infotech.png",
+    image: "/assets/Internship/prodigy_infotech_logo.jpeg",
   },
   {
     id: 4,
@@ -60,25 +60,27 @@ export const internships: Internship[] = [
     type: "Part-time",
     period: "Oct 2023 - Nov 2023 · 2 mos",
     location: "Remote",
-    image: "/assets/internships/letsupgrade.png",
+    image: "/assets/Internship/letsupgrade.webp",
   },
 ];
 
 export const certifications: Certification[] = [
   {
     id: 1,
-    title: "Certified Ethical Hacker (CEH)",
-    issuer: "EC-Council",
-    date: "2023",
-    link: "https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/",
-    image: "/assets/certifications/ceh.png",
+    title: "Zero Trust Cyber Associate (ZTCA)",
+    issuer: "",
+    date: "Feb 23rd, 2023",
   },
   {
     id: 2,
-    title: "AWS Certified Solutions Architect – Associate",
-    issuer: "Amazon Web Services (AWS)",
-    date: "2024",
-    link: "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
-    image: "/assets/certifications/aws.png",
+    title: "Fortinet Certified Fundamentals in Cybersecurity",
+    issuer: "",
+    date: "Oct 24th, 2023",
+  },
+  {
+    id: 3,
+    title: "Certificate of Participation – HackIITK Hackathon 2025, IIT Kanpur",
+    issuer: "",
+    date: "Feb 18th, 2025",
   },
 ];
