@@ -10,7 +10,7 @@ export default function Header() {
       setIsScrolled(window.scrollY > 50);
       
       // Determine which section is currently in view
-      const sections = ['hero', 'skills', 'publications', 'internships', 'certifications', 'projects', 'experience'];
+      const sections = ['hero', 'about', 'skills', 'publications', 'internships', 'certifications', 'projects', 'experience', 'contact'];
       const scrollPosition = window.scrollY + 100; // Offset for header height
       
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -42,6 +42,12 @@ export default function Header() {
           background: 'bg-black/80 backdrop-blur-md',
           textColor: 'text-white',
           mobileBg: 'bg-black/95'
+        };
+      case 'about':
+        return {
+          background: 'bg-gray-50/90 backdrop-blur-md',
+          textColor: 'text-gray-800',
+          mobileBg: 'bg-gray-50/95'
         };
       case 'skills':
         return {
@@ -78,6 +84,12 @@ export default function Header() {
           background: 'bg-white/90 backdrop-blur-md',
           textColor: 'text-gray-800',
           mobileBg: 'bg-white/95'
+        };
+      case 'contact':
+        return {
+          background: 'bg-gray-50/90 backdrop-blur-md',
+          textColor: 'text-gray-800',
+          mobileBg: 'bg-gray-50/95'
         };
       default:
         return {
@@ -118,6 +130,12 @@ export default function Header() {
               Home
             </button>
             <button
+              onClick={() => scrollToSection('about')}
+              className={`${styles.textColor} hover:text-blue-600 transition-colors duration-200 font-medium`}
+            >
+              About
+            </button>
+            <button
               onClick={() => scrollToSection('skills')}
               className={`${styles.textColor} hover:text-blue-600 transition-colors duration-200 font-medium`}
             >
@@ -140,6 +158,12 @@ export default function Header() {
               className={`${styles.textColor} hover:text-blue-600 transition-colors duration-200 font-medium`}
             >
               Publications
+            </button>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className={`${styles.textColor} hover:text-blue-600 transition-colors duration-200 font-medium`}
+            >
+              Contact
             </button>
           </nav>
 
@@ -186,6 +210,12 @@ export default function Header() {
                 Home
               </button>
               <button
+                onClick={() => scrollToSection('about')}
+                className={`block w-full text-left px-3 py-2 ${styles.textColor} hover:text-blue-600 hover:bg-gray-50/50 rounded-md transition-colors duration-200 font-medium`}
+              >
+                About
+              </button>
+              <button
                 onClick={() => scrollToSection('skills')}
                 className={`block w-full text-left px-3 py-2 ${styles.textColor} hover:text-blue-600 hover:bg-gray-50/50 rounded-md transition-colors duration-200 font-medium`}
               >
@@ -208,6 +238,12 @@ export default function Header() {
                 className={`block w-full text-left px-3 py-2 ${styles.textColor} hover:text-blue-600 hover:bg-gray-50/50 rounded-md transition-colors duration-200 font-medium`}
               >
                 Publications
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className={`block w-full text-left px-3 py-2 ${styles.textColor} hover:text-blue-600 hover:bg-gray-50/50 rounded-md transition-colors duration-200 font-medium`}
+              >
+                Contact
               </button>
             </div>
           </div>

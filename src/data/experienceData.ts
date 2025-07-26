@@ -49,7 +49,7 @@ export const internships: Internship[] = [
     type: "Internship",
     period: "Jul 2024 - Jul 2024 · 1 mo",
     location: "Remote",
-    skills: ["Python", "Cybersecurity"],
+    skills: ["Python", "Cybersecurity Enthusiast"],
     link: "https://github.com/shailum17/Prodigy-Cyber-Security-Internahip",
     image: "/assets/Internship/prodigy_infotech_logo.jpeg",
   },
@@ -73,7 +73,7 @@ export const certifications: Certification[] = [
   },
   {
     id: 2,
-    title: "Fortinet Certified Fundamentals in Cybersecurity",
+    title: "Fortinet Certified Fundamentals in Cybersecurity Enthusiast",
     issuer: "",
     date: "Oct 24th, 2023",
   },

@@ -1,7 +1,7 @@
 export default function SkillBadge({ name, category }: { name: string, category: string }) {
   const categoryColors: Record<string, string> = {
     programming: 'bg-blue-500',
-    cybersecurity: 'bg-red-500',
+    Cybersecurity Enthusiast: 'bg-red-500',
     design: 'bg-purple-500',
     web: 'bg-green-500',
     database: 'bg-yellow-500',

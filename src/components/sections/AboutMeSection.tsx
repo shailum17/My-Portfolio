@@ -8,8 +8,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
       </svg>
     ),
-    title: 'Cybersecurity Awareness',
-    desc: 'Familiar with core cybersecurity concepts like network security, ethical hacking, and vulnerability analysis using tools such as OWASP ZAP and Burp Suite.'
+    title: 'Cybersecurity Enthusiast Awareness',
+    desc: 'Familiar with core Cybersecurity Enthusiast concepts like network security, ethical hacking, and vulnerability analysis using tools such as OWASP ZAP and Burp Suite.'
   },
   {
     icon: (
@@ -152,13 +152,13 @@ export default function AboutMeSection() {
               className="text-base md:text-[17px] text-gray-700 font-sans"
               variants={itemVariants}
             >
-              I'm Shailendra Mourya, a versatile and driven Computer Science undergraduate with hands-on experience in cybersecurity, full-stack web development, and graphic design. My passion lies in leveraging technology to create secure, user-friendly, and visually engaging digital solutions. I've contributed to projects ranging from a blockchain-based voting platform with biometric authentication to AI-powered travel planning websites and creative design galleries. With a solid grasp of programming languages (C, C++, Python, Java, JavaScript), I enjoy solving complex problems and staying updated with emerging tech trends.
+              I'm Shailendra Mourya, a versatile and driven Computer Science undergraduate with hands-on experience in Cybersecurity Enthusiast, full-stack web development, and graphic design. My passion lies in leveraging technology to create secure, user-friendly, and visually engaging digital solutions. I've contributed to projects ranging from a blockchain-based voting platform with biometric authentication to AI-powered travel planning websites and creative design galleries. With a solid grasp of programming languages (C, C++, Python, Java, JavaScript), I enjoy solving complex problems and staying updated with emerging tech trends.
             </motion.p>
             <motion.p 
               className="text-base md:text-[17px] text-gray-700 font-sans"
               variants={itemVariants}
             >
-              Beyond development, I hold certifications in cybersecurity fundamentals and have explored tools like Burp Suite, OWASP ZAP, and Kali Linux. My design background includes internships and creative work using Figma, Canva, and Adobe Photoshop. Whether it's safeguarding systems or building beautiful, functional interfaces, I approach every project with creativity, curiosity, and a learner's mindset. I'm always excited to collaborate, grow, and make an impact through technology.
+              Beyond development, I hold certifications in Cybersecurity Enthusiast fundamentals and have explored tools like Burp Suite, OWASP ZAP, and Kali Linux. My design background includes internships and creative work using Figma, Canva, and Adobe Photoshop. Whether it's safeguarding systems or building beautiful, functional interfaces, I approach every project with creativity, curiosity, and a learner's mindset. I'm always excited to collaborate, grow, and make an impact through technology.
             </motion.p>
             <motion.div 
               className="flex flex-wrap gap-3 mt-4"

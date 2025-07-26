@@ -285,7 +285,7 @@ export default function ContactSection() {
             >
               <div className="text-center py-2">
                 <img
-                  src="/assets/education/bg.jpeg"
+                  src="/assets/education/bg.png"
                   alt="Shailendra Mourya"
                   className="w-20 h-20 rounded-full mx-auto mb-5 object-cover border-2 border-gray-200 shadow-md"
                 />
