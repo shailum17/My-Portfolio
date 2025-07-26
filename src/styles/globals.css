@@ -18,4 +18,83 @@ body {
   background: #f9fafb;
   box-shadow: 8px 8px 24px #e0e0e0, -8px -8px 24px #ffffff, inset 2px 2px 8px #e0e0e0, inset -2px -2px 8px #ffffff;
   border: none;
+}
+
+/* Animated Loader Styles - Clean Version */
+.css-loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.css-loader {
+  color: rgb(124, 124, 124);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 25px;
+  box-sizing: content-box;
+  height: 40px;
+  padding: 10px 10px;
+  display: flex;
+  border-radius: 8px;
+}
+
+.css-words {
+  overflow: hidden;
+  position: relative;
+}
+
+.css-words::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    transparent 10%,
+    transparent 30%,
+    transparent 70%,
+    transparent 90%
+  );
+  z-index: 20;
+}
+
+.css-word {
+  display: block;
+  height: 100%;
+  padding-left: 6px;
+  color: #956afa;
+  animation: spin_4991 4s infinite;
+}
+
+@keyframes spin_4991 {
+  10% {
+    transform: translateY(-102%);
+  }
+
+  25% {
+    transform: translateY(-100%);
+  }
+
+  35% {
+    transform: translateY(-202%);
+  }
+
+  50% {
+    transform: translateY(-200%);
+  }
+
+  60% {
+    transform: translateY(-302%);
+  }
+
+  75% {
+    transform: translateY(-300%);
+  }
+
+  85% {
+    transform: translateY(-402%);
+  }
+
+  100% {
+    transform: translateY(-400%);
+  }
 } 

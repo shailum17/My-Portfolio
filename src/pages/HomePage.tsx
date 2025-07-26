@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import HeroSection from '../components/sections/HeroSection';
 import AboutMeSection from '../components/sections/AboutMeSection';
+import SectionTransition, { StaggeredItem } from '../components/ui/SectionTransition';
 
 // Lazy load sections that are below the fold
 const SkillsSection = lazy(() => import('../components/sections/SkillsSection'));
@@ -13,50 +14,71 @@ const ContactSection = lazy(() => import('../components/sections/ContactSection'
 
 // Loading component for lazy-loaded sections
 const SectionLoader = () => (
-  <div className="py-20 bg-light">
-    <div className="container mx-auto px-4">
-      <div className="animate-pulse">
-        <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-8"></div>
-        <div className="h-64 bg-gray-200 rounded"></div>
+  <SectionTransition>
+    <div className="py-20 bg-light">
+      <div className="container mx-auto px-4">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-8"></div>
+          <div className="h-64 bg-gray-200 rounded"></div>
+        </div>
       </div>
     </div>
-  </div>
+  </SectionTransition>
 );
 
 export default function HomePage() {
   return (
     <main className="pt-16">
       {/* Above the fold - load immediately */}
-      <HeroSection />
-      <AboutMeSection />
+      <StaggeredItem>
+        <HeroSection />
+      </StaggeredItem>
+      
+      <StaggeredItem delay={0.2}>
+        <AboutMeSection />
+      </StaggeredItem>
       
       {/* Below the fold - lazy load */}
       <Suspense fallback={<SectionLoader />}>
-        <SkillsSection />
+        <StaggeredItem delay={0.4}>
+          <SkillsSection />
+        </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <PublicationsSection />
+        <StaggeredItem delay={0.6}>
+          <PublicationsSection />
+        </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <InternshipSection />
+        <StaggeredItem delay={0.8}>
+          <InternshipSection />
+        </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <CertificationSection />
+        <StaggeredItem delay={1.0}>
+          <CertificationSection />
+        </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <ProjectsSection />
+        <StaggeredItem delay={1.2}>
+          <ProjectsSection />
+        </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <ExperienceSection />
+        <StaggeredItem delay={1.4}>
+          <ExperienceSection />
+        </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <ContactSection />
+        <StaggeredItem delay={1.6}>
+          <ContactSection />
+        </StaggeredItem>
       </Suspense>
     </main>
   );

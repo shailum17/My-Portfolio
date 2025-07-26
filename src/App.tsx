@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import CustomCursor from './components/ui/CustomCursor';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import PageTransition from './components/ui/PageTransition';
 import { measurePerformance, measureResourceTiming, measureMemoryUsage } from './utils/performance';
 
 export default function App() {
@@ -20,11 +21,11 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <PageTransition>
       <CustomCursor />
       <Header />
       <HomePage />
       <Footer />
-    </>
+    </PageTransition>
   );
 }
