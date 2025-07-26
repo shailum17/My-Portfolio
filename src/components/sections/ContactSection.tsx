@@ -144,16 +144,16 @@ export default function ContactSection() {
             Ready to collaborate? Let's discuss your next project or just say hello!
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left: Contact Form - Smaller */}
-          <motion.div 
+          {/* Left: Contact Form */}
+          <motion.div
             className="bg-white/80 backdrop-blur-xl border border-gray-200 shadow-xl p-6 rounded-2xl"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            style={{ 
+            style={{
               boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.1)',
               background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)'
             }}
@@ -269,9 +269,9 @@ export default function ContactSection() {
             )}
           </motion.div>
 
-          {/* Right: Profile and Contact Details - Smaller */}
+          {/* Right: Profile and Contact Details */}
           <div className="space-y-6">
-            {/* Profile Image - Matching Form Card Size */}
+            {/* Profile Image */}
             <motion.div 
               className="bg-white/80 backdrop-blur-xl border border-gray-200 shadow-xl p-8 rounded-2xl"
               initial={{ opacity: 0, x: 50 }}
@@ -294,14 +294,14 @@ export default function ContactSection() {
               </div>
             </motion.div>
 
-            {/* Contact Details Card - Matching Form Card Size */}
-            <motion.div 
+            {/* Contact Details Card */}
+            <motion.div
               className="bg-white/80 backdrop-blur-xl border border-gray-200 shadow-xl p-8 text-gray-900 rounded-2xl"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              style={{ 
+              style={{
                 boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.1)',
                 background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)'
               }}
@@ -321,25 +321,30 @@ export default function ContactSection() {
                       {detail.icon}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm text-gray-500 font-medium">{detail.label}</p>
+                      <p className="text-sm text-gray-500 font-medium">{detail.label}:</p>
                       <p className="text-sm text-gray-900 truncate">{detail.value}</p>
                     </div>
                   </motion.div>
                 ))}
               </div>
-              <div className="flex space-x-3 justify-center pt-2">
-                {socialLinks.map(link => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`bg-gray-100 ${link.color} transition-all duration-300 p-2 rounded-lg text-gray-700 backdrop-blur-sm hover:scale-110`}
-                    aria-label={link.name}
-                  >
-                    {link.icon}
-                  </a>
-                ))}
+              
+              {/* Social Links */}
+              <div className="mt-6">
+                <h5 className="text-sm font-semibold text-gray-700 mb-3">Follow Me</h5>
+                <div className="flex space-x-3 justify-center pt-2">
+                  {socialLinks.map(link => (
+                    <a
+                      key={link.name}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`bg-gray-100 ${link.color} transition-all duration-300 p-2 rounded-lg text-gray-700 backdrop-blur-sm hover:scale-110`}
+                      aria-label={link.name}
+                    >
+                      {link.icon}
+                    </a>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>

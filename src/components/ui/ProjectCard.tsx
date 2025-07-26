@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import LikeButton from "./LikeButton";
 import { Project } from "../../data/projectsData";
-import { Wrench } from "lucide-react";
 
 // Map technology names to icon URLs (add more as needed)
 const techIconMap: Record<string, string> = {
@@ -22,6 +21,8 @@ const techIconMap: Record<string, string> = {
 
 export default function ProjectCard({ project }: { project: Project }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     if (cardRef.current) {
@@ -38,6 +39,9 @@ export default function ProjectCard({ project }: { project: Project }) {
     }
   }, []);
 
+  const handleImageLoad = () => setImageLoaded(true);
+  const handleImageError = () => setImageError(true);
+
   return (
     <div
       ref={cardRef}
@@ -47,13 +51,26 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Image */}
       {project.image && (
         <div className="w-full h-48 bg-gray-100/40 overflow-hidden flex items-center justify-center">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-            style={{ filter: 'brightness(0.95) saturate(1.1)' }}
-          />
+          {!imageError ? (
+            <img
+              src={project.image}
+              alt={project.title}
+              className={`object-cover w-full h-full transition-all duration-300 ${
+                imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+              } group-hover:scale-105`}
+              loading="lazy"
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              style={{ filter: 'brightness(0.95) saturate(1.1)' }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+              <span className="text-gray-500 text-sm">Image not available</span>
+            </div>
+          )}
+          {!imageLoaded && !imageError && (
+            <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+          )}
         </div>
       )}
       {/* Header */}
@@ -65,37 +82,53 @@ export default function ProjectCard({ project }: { project: Project }) {
         <LikeButton />
       </div>
       {/* Body */}
-      <div className="px-6 pb-2 flex-1">
-        <p className="text-gray-800 mb-3 text-sm drop-shadow-sm">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-2">
-          {project.highlights.map((highlight, i) => (
-            <span key={i} className="bg-primary/20 text-primary px-2 py-1 rounded text-xs font-semibold shadow-sm">{highlight}</span>
+      <div className="px-6 pb-4 flex-grow">
+        <p className="text-gray-700 text-sm leading-relaxed mb-4 line-clamp-3">
+          {project.description}
+        </p>
+        
+        {/* Technologies */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.technologies.slice(0, 4).map((tech) => (
+            <span
+              key={tech}
+              className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full"
+            >
+              {tech}
+            </span>
           ))}
+          {project.technologies.length > 4 && (
+            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+              +{project.technologies.length - 4} more
+            </span>
+          )}
         </div>
       </div>
+      
       {/* Footer */}
-      <div className="px-6 pb-4 flex flex-wrap items-center justify-between gap-2 border-t border-white/30 mt-auto">
-        <div className="flex flex-wrap gap-1">
-          {project.technologies.map(tech => (
-            <span key={tech} className="bg-indigo-100/60 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium shadow-sm">{tech}</span>
-          ))}
+      <div className="px-6 pb-4 mt-auto">
+        <div className="flex gap-3">
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-primary text-white text-center py-2 px-4 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors duration-200"
+            >
+              Live Demo
+            </a>
+          )}
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-gray-800 text-white text-center py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors duration-200"
+            >
+              GitHub
+            </a>
+          )}
         </div>
-        {/* Remove inline link icons here */}
-      </div>
-      {/* Bottom Centered Action Icons */}
-      <div className="flex flex-row justify-center gap-4 mt-4 mb-2">
-        {project.links?.github && (
-          <a href={project.links.github} target="_blank" rel="noopener noreferrer" title="GitHub"
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-white border-2 border-gray-200 shadow hover:bg-gray-100 hover:border-primary transition-colors">
-            <svg className="w-7 h-7 text-gray-700" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.186 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.157-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.417-.012 2.747 0 .267.18.578.688.48C19.138 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/></svg>
-          </a>
-        )}
-        {project.links?.live && (
-          <a href={project.links.live} target="_blank" rel="noopener noreferrer" title="Live Demo"
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-white border-2 border-primary shadow hover:bg-primary/10 hover:border-primary transition-colors">
-            <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7v7m0 0L10 21l-7-7L21 10z"/></svg>
-          </a>
-        )}
       </div>
     </div>
   );

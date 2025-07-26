@@ -1,0 +1,44 @@
+# Robots.txt for Shailendra Mourya Portfolio
+# https://shailum17.github.io/
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://shailum17.github.io/sitemap.xml
+
+# Crawl delay (optional - be respectful to servers)
+Crawl-delay: 1
+
+# Disallow specific paths (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow important files
+Allow: /assets/
+Allow: /favicon.ico
+Allow: /resume.pdf
+
+# Block access to development files
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /tsconfig.json
+Disallow: /vite.config.ts
+Disallow: /tailwind.config.js
+Disallow: /postcss.config.js 
