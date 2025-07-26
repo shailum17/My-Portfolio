@@ -42,7 +42,7 @@ export default function HeroSection() {
   const typedSubtitle = useTypingEffect(typingPhrases);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden font-sans">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center text-white overflow-hidden font-sans">
       <video
         autoPlay
         loop
