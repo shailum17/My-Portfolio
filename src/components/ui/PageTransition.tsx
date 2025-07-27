@@ -174,7 +174,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.8 }}
               >
-                Cybersecurity Specialist & Full-Stack Developer
+                Cybersecurity Enthusiast & Full-Stack Developer
               </motion.p>
 
               {/* Animated Loader - Clean Version */}
