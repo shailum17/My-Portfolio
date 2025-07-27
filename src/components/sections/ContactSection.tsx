@@ -28,13 +28,25 @@ export default function ContactSection() {
     setError('');
 
     // Determine the API URL based on environment
-    const apiUrl = process.env.NODE_ENV === 'production' 
-      ? `${window.location.origin}/api/contact` // Full URL for production
-      : 'http://localhost:5000/api/contact'; // Local development
+    let apiUrl;
+    if (process.env.NODE_ENV === 'production') {
+      // Try multiple approaches for production
+      if (window.location.hostname.includes('vercel.app')) {
+        apiUrl = `${window.location.origin}/api/contact`;
+      } else {
+        apiUrl = '/api/contact';
+      }
+    } else {
+      apiUrl = 'http://localhost:5000/api/contact';
+    }
 
-    console.log('Submitting to:', apiUrl); // Debug log
+    console.log('Environment:', process.env.NODE_ENV);
+    console.log('Hostname:', window.location.hostname);
+    console.log('Origin:', window.location.origin);
+    console.log('Submitting to:', apiUrl);
 
     try {
+      console.log('Starting fetch request...');
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -43,42 +55,44 @@ export default function ContactSection() {
         body: JSON.stringify(form),
       });
 
-      console.log('Response status:', response.status); // Debug log
+      console.log('Response received:', response);
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
+      if (!response.ok) {
+        console.log('Response not ok, trying to get error details...');
+        const errorText = await response.text();
+        console.log('Error response text:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
 
       const data = await response.json();
-      console.log('Response data:', data); // Debug log
+      console.log('Response data:', data);
 
-      if (response.ok) {
-        setSubmitted(true);
-        setShowSuccessPopup(true);
-        setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-        
-        // Auto-hide popup after 5 seconds
-        setTimeout(() => {
-          setShowSuccessPopup(false);
-        }, 5000);
-      } else {
-        if (data.errors && Array.isArray(data.errors)) {
-          setError(data.errors.map((err: any) => err.msg).join(', '));
-        } else {
-          setError(data.message || 'Something went wrong. Please try again.');
-        }
-      }
-    } catch (err) {
-      console.error('Contact form error:', err);
+      setSubmitted(true);
+      setShowSuccessPopup(true);
+      setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
       
-      // Fallback: Show success message even if API fails (for demo purposes)
-      if (process.env.NODE_ENV === 'production') {
-        setSubmitted(true);
-        setShowSuccessPopup(true);
-        setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-        
-        // Auto-hide popup after 5 seconds
-        setTimeout(() => {
-          setShowSuccessPopup(false);
-        }, 5000);
+      // Auto-hide popup after 5 seconds
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+      }, 5000);
+
+    } catch (err) {
+      console.error('Contact form error details:', err);
+      console.error('Error name:', err.name);
+      console.error('Error message:', err.message);
+      console.error('Error stack:', err.stack);
+      
+      // Show specific error messages based on error type
+      if (err.name === 'TypeError' && err.message.includes('fetch')) {
+        setError('Network error: Unable to reach the server. Please check your internet connection.');
+      } else if (err.message.includes('404')) {
+        setError('API endpoint not found. Please contact the administrator.');
+      } else if (err.message.includes('500')) {
+        setError('Server error. Please try again later.');
       } else {
-        setError('Network error. Please check your connection and try again.');
+        setError(`Error: ${err.message}`);
       }
     } finally {
       setLoading(false);
