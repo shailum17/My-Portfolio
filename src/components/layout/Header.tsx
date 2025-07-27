@@ -11,7 +11,7 @@ export default function Header() {
       setIsScrolled(window.scrollY > 50);
       
       // Determine which section is currently in view
-      const sections = ['hero', 'about', 'skills', 'publications', 'internships', 'certifications', 'projects', 'experience', 'contact'];
+      const sections = ['hero', 'about', 'skills', 'experience', 'internships', 'projects', 'publications', 'certifications', 'contact'];
       const scrollPosition = window.scrollY + 100; // Offset for header height
       
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -56,13 +56,25 @@ export default function Header() {
           textColor: 'text-gray-800',
           mobileBg: 'bg-gray-50/95'
         };
-      case 'publications':
+      case 'experience':
+        return {
+          background: 'bg-white/90 backdrop-blur-md',
+          textColor: 'text-gray-800',
+          mobileBg: 'bg-white/95'
+        };
+      case 'internships':
         return {
           background: 'bg-gray-50/90 backdrop-blur-md',
           textColor: 'text-gray-800',
           mobileBg: 'bg-gray-50/95'
         };
-      case 'internships':
+      case 'projects':
+        return {
+          background: 'bg-white/90 backdrop-blur-md',
+          textColor: 'text-gray-800',
+          mobileBg: 'bg-white/95'
+        };
+      case 'publications':
         return {
           background: 'bg-gray-50/90 backdrop-blur-md',
           textColor: 'text-gray-800',
@@ -71,18 +83,6 @@ export default function Header() {
       case 'certifications':
         return {
           background: 'bg-transparent backdrop-blur-md',
-          textColor: 'text-gray-800',
-          mobileBg: 'bg-white/95'
-        };
-      case 'projects':
-        return {
-          background: 'bg-white/90 backdrop-blur-md',
-          textColor: 'text-gray-800',
-          mobileBg: 'bg-white/95'
-        };
-      case 'experience':
-        return {
-          background: 'bg-white/90 backdrop-blur-md',
           textColor: 'text-gray-800',
           mobileBg: 'bg-white/95'
         };

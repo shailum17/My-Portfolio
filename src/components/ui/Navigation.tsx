@@ -70,9 +70,11 @@ export const defaultNavigationItems: NavigationItem[] = [
   { id: 'hero', label: 'Home' },
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Education' },
+  { id: 'internships', label: 'Internships' },
   { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
   { id: 'publications', label: 'Publications' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'contact', label: 'Contact' }
 ];
 
@@ -80,8 +82,10 @@ export const footerNavigationItems: NavigationItem[] = [
   { id: 'hero', label: 'Home' },
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Education' },
+  { id: 'internships', label: 'Internships' },
   { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
   { id: 'publications', label: 'Publications' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'contact', label: 'Contact' }
 ]; 
