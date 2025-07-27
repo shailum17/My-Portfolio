@@ -32,9 +32,9 @@ export default function ContactSection() {
     if (process.env.NODE_ENV === 'production') {
       // Try multiple approaches for production
       if (window.location.hostname.includes('vercel.app')) {
-        apiUrl = `${window.location.origin}/api/contact`;
+        apiUrl = `${window.location.origin}/api/contact-simple`;
       } else {
-        apiUrl = '/api/contact';
+        apiUrl = '/api/contact-simple';
       }
     } else {
       apiUrl = 'http://localhost:5000/api/contact';
