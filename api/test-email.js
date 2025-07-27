@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
     }
 
     // Test transporter creation
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: emailUser,

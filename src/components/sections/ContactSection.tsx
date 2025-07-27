@@ -33,6 +33,7 @@ export default function ContactSection() {
     try {
       const apiUrl = `${window.location.origin}/api/contact`;
       console.log('Attempting to send email to:', apiUrl);
+      console.log('Form data being sent:', form);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -42,7 +43,8 @@ export default function ContactSection() {
         body: JSON.stringify(form),
       });
       
-      console.log('Email API response:', response.status);
+      console.log('Email API response status:', response.status);
+      console.log('Email API response ok:', response.ok);
       
       if (response.ok) {
         const data = await response.json();
@@ -60,7 +62,12 @@ export default function ContactSection() {
         
         console.log('Success message shown - email was sent');
       } else {
-        const errorData = await response.json();
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (parseError) {
+          errorData = { message: `HTTP ${response.status}: ${response.statusText}` };
+        }
         console.log('Email API error:', errorData);
         
         // Show error message to user
@@ -68,9 +75,15 @@ export default function ContactSection() {
       }
     } catch (emailErr) {
       console.log('Email sending failed:', emailErr);
+      console.log('Error name:', emailErr.name);
+      console.log('Error message:', emailErr.message);
       
-      // Show network error to user
-      setError('Network error: Unable to send message. Please check your internet connection and try again.');
+      // Show more specific error messages
+      if (emailErr.name === 'TypeError' && emailErr.message.includes('fetch')) {
+        setError('Network error: Unable to reach the server. Please check your internet connection and try again.');
+      } else {
+        setError(`Error: ${emailErr.message}`);
+      }
     } finally {
       setLoading(false);
     }
