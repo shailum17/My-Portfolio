@@ -30,23 +30,6 @@ export default function ContactSection() {
     console.log('Contact form submitted');
     console.log('Form data:', form);
 
-    // For demo purposes, always show success
-    // This ensures no network errors are shown to users
-    setTimeout(() => {
-      setSubmitted(true);
-      setShowSuccessPopup(true);
-      setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-      setLoading(false);
-      
-      // Auto-hide popup after 5 seconds
-      setTimeout(() => {
-        setShowSuccessPopup(false);
-      }, 5000);
-      
-      console.log('Success message shown (demo mode)');
-    }, 1000); // Small delay to simulate processing
-
-    // Try to send the actual email
     try {
       const apiUrl = `${window.location.origin}/api/contact`;
       console.log('Attempting to send email to:', apiUrl);
@@ -64,12 +47,32 @@ export default function ContactSection() {
       if (response.ok) {
         const data = await response.json();
         console.log('Email sent successfully:', data);
+        
+        // Only show success if email was actually sent
+        setSubmitted(true);
+        setShowSuccessPopup(true);
+        setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+        
+        // Auto-hide popup after 5 seconds
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+        }, 5000);
+        
+        console.log('Success message shown - email was sent');
       } else {
         const errorData = await response.json();
         console.log('Email API error:', errorData);
+        
+        // Show error message to user
+        setError(errorData.message || 'Failed to send message. Please try again.');
       }
     } catch (emailErr) {
       console.log('Email sending failed:', emailErr);
+      
+      // Show network error to user
+      setError('Network error: Unable to send message. Please check your internet connection and try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
