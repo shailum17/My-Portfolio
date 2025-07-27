@@ -14,7 +14,8 @@ export const measurePerformance = () => {
     const fidObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       entries.forEach((entry) => {
-        console.log('FID:', entry.processingStart - entry.startTime);
+        const fidEntry = entry as PerformanceEventTiming;
+        console.log('FID:', fidEntry.processingStart - fidEntry.startTime);
       });
     });
     fidObserver.observe({ entryTypes: ['first-input'] });
@@ -23,9 +24,10 @@ export const measurePerformance = () => {
     const clsObserver = new PerformanceObserver((list) => {
       let clsValue = 0;
       const entries = list.getEntries();
-      entries.forEach((entry: any) => {
-        if (!entry.hadRecentInput) {
-          clsValue += entry.value;
+      entries.forEach((entry) => {
+        const layoutShiftEntry = entry as any;
+        if (!layoutShiftEntry.hadRecentInput) {
+          clsValue += layoutShiftEntry.value;
         }
       });
       console.log('CLS:', clsValue);

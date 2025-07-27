@@ -27,8 +27,13 @@ export default function ContactSection() {
     setLoading(true);
     setError('');
 
+    // Determine the API URL based on environment
+    const apiUrl = process.env.NODE_ENV === 'production' 
+      ? '/api/contact' // Vercel Functions endpoint
+      : 'http://localhost:5000/api/contact'; // Local development
+
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,6 +60,7 @@ export default function ContactSection() {
         }
       }
     } catch (err) {
+      console.error('Contact form error:', err);
       setError('Network error. Please check your connection and try again.');
     } finally {
       setLoading(false);
@@ -169,13 +175,15 @@ export default function ContactSection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeSuccessPopup}
+            {...({} as any)}
           >
             <motion.div
               className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
+              {...({} as any)}
             >
               <div className="text-center">
                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
