@@ -1,97 +1,126 @@
 import React, { useEffect, useRef } from 'react';
 
-const DOTS = 20;
-const DOT_SIZE = 18;
-const DOT_MIN_SIZE = DOT_SIZE * 0.4; // Last dot is 40% of head size
-const COLOR = '#6366f1'; // Tailwind indigo-500
+const DOTS = 12; // Reduced from 20 for better performance
+const DOT_SIZE = 16; // Reduced from 18
+const DOT_MIN_SIZE = DOT_SIZE * 0.3; // Last dot is 30% of head size
 
-const GooCursor: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const mouse = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-  const positions = useRef(
-    Array.from({ length: DOTS }, () => ({ x: window.innerWidth / 2, y: window.innerHeight / 2 }))
-  );
+export default function CustomCursor() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const trailRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const animationFrameRef = useRef<number>();
 
   useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      mouse.current.x = e.clientX;
-      mouse.current.y = e.clientY;
-    };
-    document.addEventListener('mousemove', handleMove);
-    return () => {
-      document.removeEventListener('mousemove', handleMove);
-    };
-  }, []);
+    const cursor = cursorRef.current;
+    const trail = trailRefs.current;
+    
+    if (!cursor) return;
 
-  useEffect(() => {
-    let anim: number;
-    const animate = () => {
-      // Head follows mouse
-      positions.current[0].x += (mouse.current.x - positions.current[0].x) * 0.5;
-      positions.current[0].y += (mouse.current.y - positions.current[0].y) * 0.5;
-      // Each dot follows the previous
-      for (let i = 1; i < DOTS; i++) {
-        positions.current[i].x += (positions.current[i - 1].x - positions.current[i].x) * 0.5;
-        positions.current[i].y += (positions.current[i - 1].y - positions.current[i].y) * 0.5;
-      }
-      // Render
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    let trailX = Array(DOTS).fill(0);
+    let trailY = Array(DOTS).fill(0);
+
+    const updateCursor = () => {
+      // Smooth cursor movement with easing
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
+      
+      cursor.style.left = `${cursorX}px`;
+      cursor.style.top = `${cursorY}px`;
+
+      // Update trail with optimized interpolation
       for (let i = 0; i < DOTS; i++) {
-        const el = dotRefs.current[i];
-        if (el) {
-          // Linear decrease in size from head to tail
-          const size = DOT_SIZE - ((DOT_SIZE - DOT_MIN_SIZE) * (i / (DOTS - 1)));
-          el.style.width = `${size}px`;
-          el.style.height = `${size}px`;
-          el.style.transform = `translate3d(${positions.current[i].x - size / 2}px, ${positions.current[i].y - size / 2}px, 0)`;
+        if (i === 0) {
+          trailX[i] += (cursorX - trailX[i]) * 0.3;
+          trailY[i] += (cursorY - trailY[i]) * 0.3;
+        } else {
+          trailX[i] += (trailX[i - 1] - trailX[i]) * 0.25;
+          trailY[i] += (trailY[i - 1] - trailY[i]) * 0.25;
+        }
+        
+        if (trail[i]) {
+          trail[i]!.style.left = `${trailX[i]}px`;
+          trail[i]!.style.top = `${trailY[i]}px`;
+          
+          // Calculate decreasing size for snake effect
+          const sizeRatio = 1 - (i / DOTS) * 0.7; // More dramatic size decrease
+          const currentSize = DOT_MIN_SIZE + (DOT_SIZE - DOT_MIN_SIZE) * sizeRatio;
+          trail[i]!.style.width = `${currentSize}px`;
+          trail[i]!.style.height = `${currentSize}px`;
         }
       }
-      anim = requestAnimationFrame(animate);
+
+      animationFrameRef.current = requestAnimationFrame(updateCursor);
     };
-    anim = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(anim);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      mouseRef.current = { x: mouseX, y: mouseY };
+    };
+
+    const handleMouseDown = () => {
+      cursor.style.transform = 'scale(0.8)';
+      trail.forEach(dot => {
+        if (dot) dot.style.transform = 'scale(0.8)';
+      });
+    };
+
+    const handleMouseUp = () => {
+      cursor.style.transform = 'scale(1)';
+      trail.forEach(dot => {
+        if (dot) dot.style.transform = 'scale(1)';
+      });
+    };
+
+    // Start animation loop
+    updateCursor();
+
+    // Add event listeners
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mouseup', handleMouseUp);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, []);
 
-  // SVG filter for goo effect
   return (
-    <>
-      <svg style={{ position: 'fixed', width: 0, height: 0 }}>
-        <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 35 -15" result="goo" />
-          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-        </filter>
-      </svg>
+    <div className="fixed inset-0 pointer-events-none z-[99999]">
+      {/* Main cursor */}
       <div
-        ref={containerRef}
+        ref={cursorRef}
+        className="fixed w-4 h-4 bg-blue-600 rounded-full mix-blend-normal pointer-events-none transition-transform duration-150 ease-out"
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          pointerEvents: 'none',
-          zIndex: 99999,
-          filter: 'url(#goo)',
+          transform: 'translate(-50%, -50%)',
+          willChange: 'transform'
         }}
-      >
-        {Array.from({ length: DOTS }).map((_, i) => (
-          <div
-            key={i}
-            ref={el => (dotRefs.current[i] = el)}
-            style={{
-              position: 'fixed',
-              borderRadius: '50%',
-              background: COLOR,
-              pointerEvents: 'none',
-              zIndex: 99999,
-              willChange: 'transform,width,height',
-            }}
-          />
-        ))}
-      </div>
-    </>
+      />
+      
+      {/* Trail dots */}
+      {Array.from({ length: DOTS }, (_, i) => (
+        <div
+          key={i}
+          ref={el => { trailRefs.current[i] = el; }}
+          className="fixed bg-blue-600 rounded-full pointer-events-none transition-transform duration-150 ease-out"
+          style={{
+            transform: 'translate(-50%, -50%)',
+            width: `${DOT_MIN_SIZE + (DOT_SIZE - DOT_MIN_SIZE) * (1 - i / DOTS)}px`,
+            height: `${DOT_MIN_SIZE + (DOT_SIZE - DOT_MIN_SIZE) * (1 - i / DOTS)}px`,
+            opacity: 0.8 - (i / DOTS) * 0.6,
+            willChange: 'transform'
+          }}
+        />
+      ))}
+    </div>
   );
-};
-
-export default GooCursor; 
+} 

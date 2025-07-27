@@ -67,7 +67,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Body */}
       <div className="px-6 pb-2 flex-1">
         <p className="text-gray-800 mb-3 text-sm drop-shadow-sm">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-2">
+      <div className="flex flex-wrap gap-2 mb-2">
           {project.highlights.map((highlight, i) => (
             <span key={i} className="bg-primary/20 text-primary px-2 py-1 rounded text-xs font-semibold shadow-sm">{highlight}</span>
           ))}
@@ -76,9 +76,9 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Footer */}
       <div className="px-6 pb-4 flex flex-wrap items-center justify-between gap-2 border-t border-white/30 mt-auto">
         <div className="flex flex-wrap gap-1">
-          {project.technologies.map(tech => (
+        {project.technologies.map(tech => (
             <span key={tech} className="bg-indigo-100/60 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium shadow-sm">{tech}</span>
-          ))}
+        ))}
         </div>
         {/* Remove inline link icons here */}
       </div>

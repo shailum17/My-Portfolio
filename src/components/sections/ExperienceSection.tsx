@@ -225,8 +225,29 @@ export default function ExperienceSection() {
 export function InternshipSection() {
   const accent = 'blue-500';
   return (
-    <section id="internships" className="py-20 bg-light">
-      <div className="container mx-auto px-4">
+    <section 
+      id="internships" 
+      className="py-20 relative overflow-hidden"
+      style={{
+        backgroundImage: 'url(/assets/Internship/bg.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Zoom overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          transform: 'scale3d(1.05, 1.05, 1)',
+          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          willChange: 'transform'
+        }}
+      />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <h2 className="text-4xl font-extrabold mb-12 text-center text-dark">Internships</h2>
         <div className="relative w-full max-w-4xl mx-auto">
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-200 rounded" />

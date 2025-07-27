@@ -47,7 +47,7 @@ export default function HomePage() {
       
       <Suspense fallback={<SectionLoader />}>
         <StaggeredItem delay={0.6}>
-          <PublicationsSection />
+          <ExperienceSection />
         </StaggeredItem>
       </Suspense>
       
@@ -59,19 +59,19 @@ export default function HomePage() {
       
       <Suspense fallback={<SectionLoader />}>
         <StaggeredItem delay={1.0}>
-          <CertificationSection />
-        </StaggeredItem>
-      </Suspense>
-      
-      <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={1.2}>
           <ProjectsSection />
         </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
+        <StaggeredItem delay={1.2}>
+          <PublicationsSection />
+        </StaggeredItem>
+      </Suspense>
+      
+      <Suspense fallback={<SectionLoader />}>
         <StaggeredItem delay={1.4}>
-          <ExperienceSection />
+          <CertificationSection />
         </StaggeredItem>
       </Suspense>
       
