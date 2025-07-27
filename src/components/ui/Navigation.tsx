@@ -43,7 +43,12 @@ export default function Navigation({
     } else if (item.href) {
       const element = document.getElementById(item.href);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const headerHeight = 64; // Height of the fixed header
+        const elementPosition = element.offsetTop - headerHeight;
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        });
       }
     }
   };
@@ -67,25 +72,25 @@ export default function Navigation({
 
 // Predefined navigation items
 export const defaultNavigationItems: NavigationItem[] = [
-  { id: 'hero', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'experience', label: 'Education' },
-  { id: 'internships', label: 'Internships' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'publications', label: 'Publications' },
-  { id: 'certifications', label: 'Certifications' },
-  { id: 'contact', label: 'Contact' }
+  { id: 'hero', label: 'Home', href: 'hero' },
+  { id: 'about', label: 'About', href: 'about' },
+  { id: 'skills', label: 'Skills', href: 'skills' },
+  { id: 'experience', label: 'Education', href: 'experience' },
+  { id: 'internships', label: 'Internships', href: 'internships' },
+  { id: 'projects', label: 'Projects', href: 'projects' },
+  { id: 'publications', label: 'Publications', href: 'publications' },
+  { id: 'certifications', label: 'Certifications', href: 'certifications' },
+  { id: 'contact', label: 'Contact', href: 'contact' }
 ];
 
 export const footerNavigationItems: NavigationItem[] = [
-  { id: 'hero', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'experience', label: 'Education' },
-  { id: 'internships', label: 'Internships' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'publications', label: 'Publications' },
-  { id: 'certifications', label: 'Certifications' },
-  { id: 'contact', label: 'Contact' }
+  { id: 'hero', label: 'Home', href: 'hero' },
+  { id: 'about', label: 'About', href: 'about' },
+  { id: 'skills', label: 'Skills', href: 'skills' },
+  { id: 'experience', label: 'Education', href: 'experience' },
+  { id: 'internships', label: 'Internships', href: 'internships' },
+  { id: 'projects', label: 'Projects', href: 'projects' },
+  { id: 'publications', label: 'Publications', href: 'publications' },
+  { id: 'certifications', label: 'Certifications', href: 'certifications' },
+  { id: 'contact', label: 'Contact', href: 'contact' }
 ]; 
