@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ContactSection() {
   const [form, setForm] = useState({ 
@@ -10,15 +10,59 @@ export default function ContactSection() {
     message: '' 
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    // Clear messages when user starts typing
+    if (error) {
+      setError('');
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+        setShowSuccessPopup(true);
+        setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+        
+        // Auto-hide popup after 5 seconds
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+        }, 5000);
+      } else {
+        if (data.errors && Array.isArray(data.errors)) {
+          setError(data.errors.map((err: any) => err.msg).join(', '));
+        } else {
+          setError(data.message || 'Something went wrong. Please try again.');
+        }
+      }
+    } catch (err) {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
   };
 
   const contactDetails = [
@@ -99,27 +143,7 @@ export default function ContactSection() {
       color: 'hover:bg-[#25D366]',
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.571-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.1 3.2 5.077 4.363.711.306 1.263.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347zM12.004 2.003c-5.514 0-9.997 4.483-9.997 9.997 0 1.768.464 3.484 1.347 4.997l-1.429 5.221 5.352-1.406c1.463.801 3.125 1.264 4.727 1.264h.001c5.514 0 9.997-4.483 9.997-9.997 0-2.67-1.04-5.182-2.929-7.071-1.889-1.889-4.401-2.929-7.07-2.929zm0 18.13c-1.504 0-2.977-.401-4.253-1.158l-.305-.18-3.176.836.847-3.104-.198-.319c-.822-1.319-1.257-2.839-1.257-4.405 0-4.411 3.588-7.999 7.999-7.999 2.137 0 4.146.832 5.656 2.344 1.511 1.511 2.344 3.52 2.344 5.656 0 4.411-3.588 7.999-7.999 7.999z" />
-        </svg>
-      )
-    },
-    {
-      name: 'Discord',
-      url: 'https://discord.com/users/shailu_m17',
-      color: 'hover:bg-[#5865F2]',
-      icon: (
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.07.07 0 00-.073.035c-.211.375-.444.864-.608 1.249-1.844-.276-3.68-.276-5.486 0-.163-.385-.405-.874-.617-1.249a.07.07 0 00-.073-.035c-1.67.285-3.282.822-4.885 1.515a.064.064 0 00-.03.027C.533 7.045-.32 9.58.099 12.057c.002.014.01.028.021.037a19.935 19.935 0 005.993 3.058.07.07 0 00.076-.027c.461-.63.873-1.295 1.226-1.994a.07.07 0 00-.038-.098 13.087 13.087 0 01-1.872-.893.07.07 0 01-.007-.117c.126-.094.252-.192.371-.291a.07.07 0 01.073-.01c3.927 1.793 8.18 1.793 12.062 0a.07.07 0 01.074.009c.12.099.245.198.372.291a.07.07 0 01-.006.117 12.64 12.64 0 01-1.873.893.07.07 0 00-.037.098c.36.699.772 1.364 1.225 1.994a.07.07 0 00.076.028 19.888 19.888 0 005.994-3.058.07.07 0 00.021-.037c.5-3.177-.838-5.682-2.548-7.661a.061.061 0 00-.03-.027zM8.02 13.331c-1.183 0-2.156-1.085-2.156-2.419 0-1.333.955-2.418 2.156-2.418 1.21 0 2.175 1.094 2.156 2.418 0 1.334-.955 2.419-2.156 2.419zm7.974 0c-1.183 0-2.156-1.085-2.156-2.419 0-1.333.955-2.418 2.156-2.418 1.21 0 2.175 1.094 2.156 2.418 0 1.334-.946 2.419-2.156 2.419z" />
-        </svg>
-      )
-    },
-    {
-      name: 'Reddit',
-      url: 'https://www.reddit.com/user/Dry-Health-1080/',
-      color: 'hover:bg-[#FF4500]',
-      icon: (
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M24 12c0-6.627-5.373-12-12-12S0 5.373 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12zm-6.406-2.845c.457 0 .828.371.828.828 0 .457-.371.828-.828.828-.457 0-.828-.371-.828-.828 0-.457.371-.828.828-.828zm-11.188 0c.457 0 .828.371.828.828 0 .457-.371.828-.828.828-.457 0-.828-.371-.828-.828 0-.457.371-.828.828-.828zm11.406 4.845c0 2.485-2.686 4.5-6 4.5s-6-2.015-6-4.5c0-.293.035-.573.102-.845.13.053.263.098.398.134.293.08.6.145.917.192.317.047.646.08.983.098.337.018.684.027 1.04.027.356 0 .703-.009 1.04-.027.337-.018.666-.051.983-.098.317-.047.624-.112.917-.192.135-.036.268-.081.398-.134.067.272.102.552.102.845zm-6.5-2.5c.276 0 .5.224.5.5s-.224.5-.5.5-.5-.224-.5-.5.224-.5.5-.5zm7 0c.276 0 .5.224.5.5s-.224.5-.5.5-.5-.224-.5-.5.224-.5.5-.5zm-3.5-7c2.485 0 4.5 2.015 4.5 4.5s-2.015 4.5-4.5 4.5-4.5-2.015-4.5-4.5 2.015-4.5 4.5-4.5z" />
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
         </svg>
       )
     }
@@ -135,6 +159,43 @@ export default function ContactSection() {
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{background: 'radial-gradient(circle 1px at 1px 1px, rgba(59,130,246,0.10) 99%, transparent 0%)', backgroundSize: '24px 24px'}} />
       </div>
+
+      {/* Success Popup Overlay */}
+      <AnimatePresence>
+        {showSuccessPopup && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeSuccessPopup}
+          >
+            <motion.div
+              className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                  <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Message Sent Successfully!</h3>
+                <p className="text-gray-600 mb-6">Thank you for reaching out! I'll get back to you soon.</p>
+                <button
+                  onClick={closeSuccessPopup}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="max-w-5xl mx-auto px-4 relative z-10">
         {/* Main Section Heading */}
@@ -166,17 +227,17 @@ export default function ContactSection() {
               </p>
             </div>
 
-            {submitted ? (
-              <motion.div 
-                className="text-purple-600 text-center text-base font-semibold py-6"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+            {error && (
+              <motion.div
+                className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
               >
-                Thank you for reaching out! I'll get back to you soon.
+                <p className="text-red-800">{error}</p>
               </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -209,7 +270,7 @@ export default function ContactSection() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                     Email
@@ -225,7 +286,7 @@ export default function ContactSection() {
                     placeholder="yourname@company.com"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                     Phone number
@@ -240,7 +301,7 @@ export default function ContactSection() {
                     placeholder="+1 (555) 444-0000"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                     Message
@@ -256,17 +317,24 @@ export default function ContactSection() {
                     placeholder="Type your message"
                   />
                 </div>
-                
+
                 <motion.button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  Send Message
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Sending...
+                    </div>
+                  ) : (
+                    'Send Message'
+                  )}
                 </motion.button>
               </form>
-            )}
           </motion.div>
 
           {/* Right: Profile and Contact Details */}
@@ -309,7 +377,7 @@ export default function ContactSection() {
               <h4 className="text-lg font-semibold mb-5 text-gray-900">Contact Information</h4>
               <div className="space-y-5 mb-8">
                 {contactDetails.map((detail, index) => (
-                  <motion.div 
+                  <motion.div
                     key={detail.label}
                     className="flex items-center space-x-3"
                     initial={{ opacity: 0, y: 20 }}
@@ -327,7 +395,7 @@ export default function ContactSection() {
                   </motion.div>
                 ))}
               </div>
-              
+
               {/* Social Links */}
               <div className="mt-6">
                 <h5 className="text-sm font-semibold text-gray-700 mb-3">Follow Me</h5>
