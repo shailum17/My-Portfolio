@@ -46,10 +46,10 @@ export default function ContactSection() {
       console.log('Success message shown (demo mode)');
     }, 1000); // Small delay to simulate processing
 
-    // Optional: Try to actually send the data in the background
+    // Try to send the actual email
     try {
-      const apiUrl = `${window.location.origin}/api/contact-simple`;
-      console.log('Attempting to send data to:', apiUrl);
+      const apiUrl = `${window.location.origin}/api/contact`;
+      console.log('Attempting to send email to:', apiUrl);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -59,16 +59,17 @@ export default function ContactSection() {
         body: JSON.stringify(form),
       });
       
-      console.log('Background API response:', response.status);
+      console.log('Email API response:', response.status);
       
       if (response.ok) {
         const data = await response.json();
-        console.log('Background API success:', data);
+        console.log('Email sent successfully:', data);
       } else {
-        console.log('Background API error:', response.status);
+        const errorData = await response.json();
+        console.log('Email API error:', errorData);
       }
-    } catch (backgroundErr) {
-      console.log('Background API call failed (this is expected for demo):', backgroundErr);
+    } catch (emailErr) {
+      console.log('Email sending failed:', emailErr);
     }
   };
 
