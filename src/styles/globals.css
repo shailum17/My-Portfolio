@@ -246,4 +246,119 @@ img {
 
 .will-change-scroll {
   will-change: scroll-position;
+}
+
+/* Button Styles */
+.btn-primary {
+  display: inline-block;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #4338CA 0%, #6D28D9 100%);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid white;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.5;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Button animations */
+.btn-primary,
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before,
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before,
+.btn-secondary:hover::before {
+  left: 100%;
+}
+
+/* Responsive button adjustments */
+@media (max-width: 640px) {
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 16px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Magnetic element styles */
+.magnetic-element {
+  transition: transform 0.1s ease-out;
+  transform: translate(var(--magnetic-x, 0px), var(--magnetic-y, 0px));
+}
+
+/* Ensure magnetic effect works with button hover states */
+.magnetic-element .btn-primary:hover,
+.magnetic-element .btn-secondary:hover {
+  transform: translate(var(--magnetic-x, 0px), var(--magnetic-y, 0px)) translateY(-2px) scale(1.02);
+}
+
+.magnetic-element .btn-primary:active,
+.magnetic-element .btn-secondary:active {
+  transform: translate(var(--magnetic-x, 0px), var(--magnetic-y, 0px)) translateY(0) scale(0.98);
 } 

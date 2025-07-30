@@ -244,25 +244,30 @@ export const MagneticElement = ({
     const { clientX, clientY } = e;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
     
-    const x = (clientX - left - width / 2) / 10;
-    const y = (clientY - top - height / 2) / 10;
+    const x = (clientX - left - width / 2) / 15;
+    const y = (clientY - top - height / 2) / 15;
     
-    ref.current.style.transform = `translate(${x}px, ${y}px)`;
+    // Use CSS custom properties instead of inline transform
+    ref.current.style.setProperty('--magnetic-x', `${x}px`);
+    ref.current.style.setProperty('--magnetic-y', `${y}px`);
   };
 
   const handleMouseLeave = () => {
     if (!ref.current) return;
-    ref.current.style.transform = 'translate(0px, 0px)';
+    ref.current.style.setProperty('--magnetic-x', '0px');
+    ref.current.style.setProperty('--magnetic-y', '0px');
   };
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`magnetic-element ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      style={{
+        '--magnetic-x': '0px',
+        '--magnetic-y': '0px',
+      } as React.CSSProperties}
     >
       {children}
     </motion.div>

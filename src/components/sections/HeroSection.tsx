@@ -74,7 +74,7 @@ export default function HeroSection() {
       />
       
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-center min-h-[60vh] w-full px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-32 gap-6 sm:gap-8 md:gap-12 lg:gap-20">
-        {/* 3D Vector Illustration Left */}
+        {/* Landing Page Image Left */}
         <FloatingElement duration={4}>
           <motion.div 
             className="flex-shrink-0 flex flex-col items-center mb-6 sm:mb-8 md:mb-0"
@@ -83,9 +83,13 @@ export default function HeroSection() {
             transition={{ duration: 1, delay: 0.5 }}
           >
             <img
-              src="/assets/3d-hero.svg"
-              alt="Cybersecurity Enthusiast 3D Illustration"
-              className="w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 object-contain"
+              src="/assets/Landing_page.png"
+              alt="Portfolio Landing Page"
+              className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain rounded-lg shadow-2xl"
+              style={{
+                filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3))',
+                backdropFilter: 'blur(10px)'
+              }}
             />
           </motion.div>
         </FloatingElement>
@@ -158,7 +162,7 @@ export default function HeroSection() {
               <a href="#projects" className="btn-primary text-base sm:text-lg shadow-lg w-full sm:w-auto text-center">View Projects</a>
             </MagneticElement>
             <MagneticElement>
-              <a href="/resume.pdf" className="btn-secondary text-base sm:text-lg shadow-lg w-full sm:w-auto text-center">Download Resume</a>
+              <a href="/assets/Resume.pdf" className="btn-secondary text-base sm:text-lg shadow-lg w-full sm:w-auto text-center" target="_blank" rel="noopener noreferrer">Download Resume</a>
             </MagneticElement>
           </motion.div>
         </motion.div>
