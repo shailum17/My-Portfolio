@@ -4,6 +4,7 @@ import CustomCursor from './components/ui/CustomCursor';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import PageTransition from './components/ui/PageTransition';
+import { SmoothScrollProgress } from './components/ui/SmoothAnimations';
 import { initPerformanceMonitoring, cleanupPerformanceMonitoring } from './utils/performance';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
 
   return (
     <PageTransition>
+      <SmoothScrollProgress />
       <CustomCursor />
       <Header />
       <HomePage />
