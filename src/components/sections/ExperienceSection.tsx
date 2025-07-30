@@ -223,29 +223,91 @@ export default function ExperienceSection() {
 }
 
 export function InternshipSection() {
-  const accent = 'blue-500';
+  // Helper: SVG doodle options for internships
+  const internshipDoodleSvgs = [
+    // Briefcase
+    (props: any) => <svg {...props} viewBox="0 0 64 64" fill="none"><rect x="8" y="16" width="48" height="32" rx="4" stroke="#3b82f6" strokeWidth="2"/><rect x="16" y="24" width="32" height="16" rx="2" stroke="#1d4ed8" strokeWidth="2"/><path d="M24 16v-8h16v8" stroke="#3b82f6" strokeWidth="2"/></svg>,
+    // Building
+    (props: any) => <svg {...props} viewBox="0 0 64 64" fill="none"><rect x="12" y="24" width="40" height="24" stroke="#3b82f6" strokeWidth="2"/><rect x="16" y="28" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="24" y="28" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="32" y="28" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="16" y="40" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="24" y="40" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="32" y="40" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><path d="M28 16v8" stroke="#3b82f6" strokeWidth="2"/></svg>,
+    // Code
+    (props: any) => <svg {...props} viewBox="0 0 64 64" fill="none"><path d="M20 16l-8 16 8 16M44 16l8 16-8 16M36 12l-8 40" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+    // Database
+    (props: any) => <svg {...props} viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="16" rx="16" ry="8" stroke="#3b82f6" strokeWidth="2"/><path d="M16 16v32c0 4.4 7.2 8 16 8s16-3.6 16-8V16" stroke="#1d4ed8" strokeWidth="2"/><ellipse cx="32" cy="48" rx="16" ry="8" stroke="#3b82f6" strokeWidth="2"/></svg>,
+    // Server
+    (props: any) => <svg {...props} viewBox="0 0 64 64" fill="none"><rect x="8" y="12" width="48" height="8" rx="2" stroke="#3b82f6" strokeWidth="2"/><rect x="8" y="28" width="48" height="8" rx="2" stroke="#3b82f6" strokeWidth="2"/><rect x="8" y="44" width="48" height="8" rx="2" stroke="#3b82f6" strokeWidth="2"/><circle cx="16" cy="16" r="2" fill="#1d4ed8"/><circle cx="16" cy="32" r="2" fill="#1d4ed8"/><circle cx="16" cy="48" r="2" fill="#1d4ed8"/></svg>,
+  ];
+
+  // Generate doodles for internship section
+  const doodleCount = 60;
+  const doodleRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const doodles = useMemo(() => {
+    const arr = [];
+    for (let i = 0; i < doodleCount; i++) {
+      const Svg = internshipDoodleSvgs[Math.floor(Math.random() * internshipDoodleSvgs.length)];
+      const top = Math.random() * 90;
+      const left = Math.random() * 90;
+      const size = 16 + Math.random() * 32;
+      const rotate = Math.random() * 360;
+      arr.push(
+        <div
+          key={i}
+          ref={el => { doodleRefs.current[i] = el; }}
+          style={{
+            position: 'absolute',
+            top: `${top}%`,
+            left: `${left}%`,
+            width: `${size}px`,
+            height: `${size}px`,
+            transform: `rotate(${rotate}deg)`
+          }}
+        >
+          <Svg className="opacity-30 z-0 drop-shadow w-full h-full" />
+        </div>
+      );
+    }
+    return arr;
+  }, []);
+
+  // Floating animation for internship doodles
+  useEffect(() => {
+    const floatAnims = doodleRefs.current.map((el, i) => {
+      if (!el) return null;
+      const x = Math.random() * 80 - 40;
+      const y = Math.random() * 80 - 40;
+      gsap.set(el, { x, y });
+      return gsap.to(el, {
+        x: `+=${Math.random() * 100 - 50}`,
+        y: `+=${Math.random() * 100 - 50}`,
+        repeat: -1,
+        yoyo: true,
+        duration: 3 + Math.random() * 2,
+        ease: 'sine.inOut',
+        delay: Math.random() * 2,
+      });
+    }).filter(Boolean);
+
+    return () => {
+      floatAnims.forEach(anim => anim && anim.kill());
+    };
+  }, []);
+
   return (
-    <section 
-      id="internships" 
-      className="py-20 relative overflow-hidden"
-      style={{
-        backgroundImage: 'url(/assets/Internship/bg.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'scroll' // Changed from 'fixed' for better mobile performance
-      }}
-    >
-      {/* Zoom overlay */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
-          transform: 'scale3d(1.05, 1.05, 1)',
-          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          willChange: 'transform'
-        }}
-      />
+    <section id="internships" className="relative py-20 bg-white overflow-hidden">
+      {/* Internship SVG Background Elements */}
+      <div id="internship-doodle-bg" className="absolute inset-0 w-full h-full z-0 pointer-events-none select-none">
+        {doodles}
+        {/* Briefcase SVGs */}
+        <svg className="absolute top-10 left-10 w-10 h-10 opacity-40 drop-shadow" viewBox="0 0 64 64" fill="none"><rect x="8" y="16" width="48" height="32" rx="4" stroke="#3b82f6" strokeWidth="2"/><rect x="16" y="24" width="32" height="16" rx="2" stroke="#1d4ed8" strokeWidth="2"/><path d="M24 16v-8h16v8" stroke="#3b82f6" strokeWidth="2"/></svg>
+        <svg className="absolute top-32 left-1/4 w-8 h-8 opacity-40 drop-shadow" viewBox="0 0 64 64" fill="none"><rect x="8" y="16" width="48" height="32" rx="4" stroke="#3b82f6" strokeWidth="2"/><rect x="16" y="24" width="32" height="16" rx="2" stroke="#1d4ed8" strokeWidth="2"/><path d="M24 16v-8h16v8" stroke="#3b82f6" strokeWidth="2"/></svg>
+        {/* Building SVGs */}
+        <svg className="absolute bottom-10 right-20 w-12 h-12 opacity-40 drop-shadow" viewBox="0 0 64 64" fill="none"><rect x="12" y="24" width="40" height="24" stroke="#3b82f6" strokeWidth="2"/><rect x="16" y="28" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="24" y="28" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="32" y="28" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="16" y="40" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="24" y="40" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><rect x="32" y="40" width="8" height="8" stroke="#1d4ed8" strokeWidth="2"/><path d="M28 16v8" stroke="#3b82f6" strokeWidth="2"/></svg>
+        {/* Code SVGs */}
+        <svg className="absolute bottom-24 left-1/3 w-8 h-8 opacity-40 drop-shadow" viewBox="0 0 64 64" fill="none"><path d="M20 16l-8 16 8 16M44 16l8 16-8 16M36 12l-8 40" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        {/* Database SVGs */}
+        <svg className="absolute top-24 right-10 w-10 h-10 opacity-40 drop-shadow" viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="16" rx="16" ry="8" stroke="#3b82f6" strokeWidth="2"/><path d="M16 16v32c0 4.4 7.2 8 16 8s16-3.6 16-8V16" stroke="#1d4ed8" strokeWidth="2"/><ellipse cx="32" cy="48" rx="16" ry="8" stroke="#3b82f6" strokeWidth="2"/></svg>
+        {/* Server SVGs */}
+        <svg className="absolute top-1/2 left-10 w-10 h-4 opacity-40 drop-shadow" viewBox="0 0 64 64" fill="none"><rect x="8" y="12" width="48" height="8" rx="2" stroke="#3b82f6" strokeWidth="2"/><rect x="8" y="28" width="48" height="8" rx="2" stroke="#3b82f6" strokeWidth="2"/><rect x="8" y="44" width="48" height="8" rx="2" stroke="#3b82f6" strokeWidth="2"/><circle cx="16" cy="16" r="2" fill="#1d4ed8"/><circle cx="16" cy="32" r="2" fill="#1d4ed8"/><circle cx="16" cy="48" r="2" fill="#1d4ed8"/></svg>
+      </div>
       
       <div className="container mx-auto px-4 relative z-10">
         <h2 className="text-4xl font-extrabold mb-12 text-center text-dark">Internships</h2>
@@ -265,7 +327,7 @@ export function InternshipSection() {
                 {/* Timeline dot for mobile */}
                 <div className="absolute left-4 top-6 w-3 h-3 rounded-full bg-blue-500 border-2 border-white shadow-lg z-10" />
                 
-                <div className="ml-12 relative w-full rounded-2xl shadow-xl bg-white p-0 flex flex-col">
+                <div className="ml-12 relative w-full rounded-2xl shadow-xl bg-white p-0 flex flex-col neumorph-card">
                   {/* Header */}
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-blue-50 rounded-t-2xl px-4 sm:px-6 pt-4 sm:pt-6 pb-2 gap-2">
                     <div className="flex items-center gap-3">
@@ -321,7 +383,7 @@ export function InternshipSection() {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:block relative w-full max-w-4xl mx-auto">
+        <div className="hidden md:block relative max-w-4xl mx-auto">
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-200 rounded" />
           {internships.map((intern, idx) => {
             const position = idx % 2 === 0 ? 'left' : 'right';
@@ -336,7 +398,7 @@ export function InternshipSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, type: 'spring' }}
-                        className="relative w-full rounded-2xl shadow-xl bg-white p-0 flex flex-col"
+                        className="relative w-full rounded-2xl shadow-xl bg-white p-0 flex flex-col neumorph-card"
                       >
                         {/* Header */}
                         <div className="flex items-center justify-between bg-blue-50 rounded-t-2xl px-6 pt-6 pb-2">
@@ -377,8 +439,8 @@ export function InternshipSection() {
                 </div>
                 {/* Center line and dot */}
                 <div className="flex flex-col items-center justify-start relative">
-                  <span className={`w-4 h-4 rounded-full bg-${accent} border-4 border-white shadow-lg z-10`} />
-                  <span className={`w-1 flex-1 bg-${accent}/30`} style={{ minHeight: 60 }} />
+                  <span className="w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-lg z-10" />
+                  <span className="w-1 flex-1 bg-blue-500/30" style={{ minHeight: 60 }} />
                 </div>
                 {/* Right card */}
                 <div className="flex-1 flex justify-start pl-4">
@@ -389,7 +451,7 @@ export function InternshipSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, type: 'spring' }}
-                        className="relative w-full rounded-2xl shadow-xl bg-white p-0 flex flex-col"
+                        className="relative w-full rounded-2xl shadow-xl bg-white p-0 flex flex-col neumorph-card"
                       >
                         {/* Header */}
                         <div className="flex items-center justify-between bg-blue-50 rounded-t-2xl px-6 pt-6 pb-2">
