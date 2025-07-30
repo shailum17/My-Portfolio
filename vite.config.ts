@@ -72,6 +72,9 @@ export default defineConfig({
     port: 5173,
     host: true,
     open: true,
+    headers: {
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https: ws: wss:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+    }
   },
   preview: {
     port: 4173,
@@ -82,5 +85,8 @@ export default defineConfig({
   },
   define: {
     __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+  },
+  esbuild: {
+    target: 'es2015',
   },
 }) 
