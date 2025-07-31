@@ -34,49 +34,49 @@ export default function HomePage() {
         <HeroSection />
       </StaggeredItem>
       
-      <StaggeredItem delay={0.2}>
+      <StaggeredItem delay={0.1}>
         <AboutMeSection />
       </StaggeredItem>
       
-      {/* Below the fold - lazy load */}
+      {/* Below the fold - lazy load with reduced delays */}
       <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={0.4}>
+        <StaggeredItem delay={0.2}>
           <SkillsSection />
         </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={0.6}>
+        <StaggeredItem delay={0.3}>
           <ExperienceSection />
         </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={0.8}>
+        <StaggeredItem delay={0.4}>
           <InternshipSection />
         </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={1.0}>
+        <StaggeredItem delay={0.5}>
           <ProjectsSection />
         </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={1.2}>
+        <StaggeredItem delay={0.6}>
           <PublicationsSection />
         </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={1.4}>
+        <StaggeredItem delay={0.7}>
           <CertificationSection />
         </StaggeredItem>
       </Suspense>
       
       <Suspense fallback={<SectionLoader />}>
-        <StaggeredItem delay={1.6}>
+        <StaggeredItem delay={0.8}>
           <ContactSection />
         </StaggeredItem>
       </Suspense>

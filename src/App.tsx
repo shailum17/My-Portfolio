@@ -4,6 +4,7 @@ import CustomCursor from './components/ui/CustomCursor';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import PageTransition from './components/ui/PageTransition';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 import { initPerformanceMonitoring, cleanupPerformanceMonitoring } from './utils/performance';
 
 export default function App() {
@@ -18,11 +19,13 @@ export default function App() {
   }, []);
 
   return (
-    <PageTransition>
-      <CustomCursor />
-      <Header />
-      <HomePage />
-      <Footer />
-    </PageTransition>
+    <ErrorBoundary>
+      <PageTransition>
+        <CustomCursor />
+        <Header />
+        <HomePage />
+        <Footer />
+      </PageTransition>
+    </ErrorBoundary>
   );
 }

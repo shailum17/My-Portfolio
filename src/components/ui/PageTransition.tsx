@@ -9,14 +9,24 @@ interface PageTransitionProps {
 export default function PageTransition({ children }: PageTransitionProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
 
   useEffect(() => {
-    // Initial page load animation
+    // Initial page load animation - reduced from 3s to 1.5s for better UX
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000); // 3 seconds for opening animation
+    }, 1500); // 1.5 seconds for opening animation
 
-    return () => clearTimeout(timer);
+    // Fallback timeout - if loading takes too long, force show content
+    const fallbackTimer = setTimeout(() => {
+      setLoadingTimeout(true);
+      setIsLoading(false);
+    }, 5000); // 5 seconds fallback
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
   // Handle page exit (beforeunload)
@@ -196,6 +206,17 @@ export default function PageTransition({ children }: PageTransitionProps) {
                   animate="animate"
                 />
               </div>
+              
+              {/* Skip Loading Button */}
+              <motion.button
+                className="mt-4 px-6 py-2 bg-white/20 text-white rounded-lg backdrop-blur-sm hover:bg-white/30 transition-all duration-300"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+                onClick={() => setIsLoading(false)}
+              >
+                Skip Loading
+              </motion.button>
 
               {/* Loading Status */}
               <motion.p
@@ -204,7 +225,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2.0, duration: 0.5 }}
               >
-                Preparing your portfolio experience...
+                {loadingTimeout ? 'Loading content...' : 'Preparing your portfolio experience...'}
               </motion.p>
             </div>
           </motion.div>
