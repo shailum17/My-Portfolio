@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FloatingElement, GradientText, MagneticElement } from "../ui/ScrollAnimations";
+import { analytics } from "../../utils/analytics";
 
 const typingPhrases = [
   "Cybersecurity Enthusiast ",
@@ -159,10 +160,24 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 1.8 }}
           >
             <MagneticElement>
-              <a href="#projects" className="btn-primary text-base sm:text-lg shadow-lg w-full sm:w-auto text-center">View Projects</a>
+              <a 
+                href="#projects" 
+                className="btn-primary text-base sm:text-lg shadow-lg w-full sm:w-auto text-center"
+                onClick={() => analytics.trackEngagement('view_projects_click')}
+              >
+                View Projects
+              </a>
             </MagneticElement>
             <MagneticElement>
-              <a href="/assets/Resume.pdf" className="btn-secondary text-base sm:text-lg shadow-lg w-full sm:w-auto text-center" target="_blank" rel="noopener noreferrer">Download Resume</a>
+              <a 
+                href="/assets/Resume.pdf" 
+                className="btn-secondary text-base sm:text-lg shadow-lg w-full sm:w-auto text-center" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                onClick={() => analytics.trackResumeDownload()}
+              >
+                Download Resume
+              </a>
             </MagneticElement>
           </motion.div>
         </motion.div>

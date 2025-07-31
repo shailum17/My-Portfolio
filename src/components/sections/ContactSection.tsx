@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { analytics } from '../../utils/analytics';
 
 export default function ContactSection() {
   const [form, setForm] = useState({ 
@@ -54,6 +55,9 @@ export default function ContactSection() {
         setSubmitted(true);
         setShowSuccessPopup(true);
         setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+        
+        // Track successful contact form submission
+        analytics.trackContactSubmit('email');
         
         // Auto-hide popup after 5 seconds
         setTimeout(() => {

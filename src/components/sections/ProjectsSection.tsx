@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { projectsData } from '../../data/projectsData';
 import ProjectCard from '../ui/ProjectCard';
+import { analytics } from '../../utils/analytics';
 
 const categories = ['all', 'web', 'blockchain', 'ai', 'design'];
 
@@ -73,7 +74,10 @@ export default function ProjectsSection() {
           {categories.map(category => (
             <button
               key={category}
-              onClick={() => setFilter(category)}
+              onClick={() => {
+                setFilter(category);
+                analytics.trackSkillFilter(category);
+              }}
               className={`px-6 py-2 rounded-full capitalize font-semibold transition-colors duration-200 border-2 ${
                 filter === category
                   ? 'bg-primary text-white border-primary shadow-lg'
