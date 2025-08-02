@@ -30,7 +30,7 @@ Crawl-delay: 1
 # Allow important files
 Allow: /assets/
 Allow: /favicon.ico
-Allow: /resume.pdf
+Allow: /assets/Resume.pdf
 
 # Block access to development files
 Disallow: /src/
