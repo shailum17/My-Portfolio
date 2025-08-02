@@ -503,3 +503,75 @@ img {
   box-shadow: 12px 12px 32px #d0d0d0, -12px -12px 32px #ffffff, inset 2px 2px 8px #e0e0e0, inset -2px -2px 8px #ffffff;
   transform: translateY(-2px);
 } 
+
+/* Floating Skill Logos Styles */
+.gsap-skill-logo-wrapper {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.gsap-skill-logo-wrapper:hover {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+  z-index: 10 !important;
+}
+
+.gsap-skill-logo {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.gsap-skill-logo img {
+  transition: all 0.3s ease;
+  filter: grayscale(20%);
+}
+
+.gsap-skill-logo:hover img {
+  filter: grayscale(0%) brightness(1.1);
+  transform: scale(1.1);
+}
+
+.gsap-skill-logo span {
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gsap-skill-logo:hover span {
+  background: rgba(255, 255, 255, 1) !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced floating animation for skill logos */
+@keyframes float-glow {
+  0%, 100% {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1)) brightness(1);
+  }
+  50% {
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2)) brightness(1.05);
+  }
+}
+
+.gsap-skill-logo-wrapper {
+  animation: float-glow 3s ease-in-out infinite;
+  animation-delay: calc(var(--animation-delay, 0) * 0.5s);
+}
+
+/* Responsive adjustments for floating logos */
+@media (max-width: 768px) {
+  .gsap-skill-logo-wrapper {
+    transform: scale(0.8);
+  }
+  
+  .gsap-skill-logo img {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+  
+  .gsap-skill-logo span {
+    font-size: 0.7rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+}

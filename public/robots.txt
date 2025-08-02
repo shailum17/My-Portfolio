@@ -1,5 +1,5 @@
 # Robots.txt for Shailendra Mourya Portfolio
-# https://shailum17.github.io/
+# https://shailum1712.vercel.app/
 
 User-agent: *
 Allow: /
@@ -18,7 +18,7 @@ User-agent: DuckDuckBot
 Allow: /
 
 # Sitemap location
-Sitemap: https://shailum17.github.io/sitemap.xml
+Sitemap: https://shailum1712.vercel.app/sitemap.xml
 
 # Crawl delay (optional - be respectful to servers)
 Crawl-delay: 1

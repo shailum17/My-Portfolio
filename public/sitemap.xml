@@ -6,82 +6,104 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://shailum17.github.io/</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Main Sections -->
   <url>
-    <loc>https://shailum17.github.io/#hero</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#hero</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#about</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#about</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#skills</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#skills</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#projects</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#projects</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#experience</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#experience</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#internships</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#internships</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#certifications</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#certifications</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#publications</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#publications</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://shailum17.github.io/#contact</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/#contact</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- External Resources -->
   <url>
-    <loc>https://shailum17.github.io/resume.pdf</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://shailum1712.vercel.app/assets/Resume.pdf</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  
+  <!-- Additional SEO URLs -->
+  <url>
+    <loc>https://shailum1712.vercel.app/#cybersecurity</loc>
+    <lastmod>2024-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://shailum1712.vercel.app/#web-development</loc>
+    <lastmod>2024-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://shailum1712.vercel.app/#portfolio</loc>
+    <lastmod>2024-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   
 </urlset> 
