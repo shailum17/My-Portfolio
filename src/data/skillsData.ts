@@ -6,7 +6,7 @@ export const skills = [
   { name: "Java", category: "programming" },
   { name: "JavaScript", category: "programming" },
 
-  // Web/Frameworks
+  // Web Technologies
   { name: "HTML5", category: "web" },
   { name: "CSS3", category: "web" },
   { name: "Bootstrap", category: "web" },
@@ -15,21 +15,54 @@ export const skills = [
   { name: "Express", category: "web" },
   { name: "JSP", category: "web" },
   { name: "Servlets", category: "web" },
+  { name: "Responsive Design", category: "web" },
+
+  // Cybersecurity
+  { name: "Network Security", category: "cybersecurity" },
+  { name: "Cryptography", category: "cybersecurity" },
+  { name: "Ethical Hacking", category: "cybersecurity" },
+  { name: "Firewalls", category: "cybersecurity" },
+  { name: "Malware Analysis", category: "cybersecurity" },
+  { name: "Social Engineering", category: "cybersecurity" },
+  { name: "Risk Management", category: "cybersecurity" },
+  { name: "Access Control", category: "cybersecurity" },
+  { name: "Cyber Laws", category: "cybersecurity" },
+
+  // Security Tools
+  { name: "Wireshark", category: "security-tools" },
+  { name: "Nmap", category: "security-tools" },
+  { name: "Kali Linux", category: "security-tools" },
+  { name: "Burp Suite", category: "security-tools" },
+  { name: "OWASP ZAP", category: "security-tools" },
 
   // Database
   { name: "MySQL", category: "database" },
   { name: "MongoDB", category: "database" },
 
-  // Tools
+  // Design Tools
+  { name: "Canva", category: "design" },
+  { name: "Figma", category: "design" },
+  { name: "Adobe Photoshop", category: "design" },
+  { name: "AI Design Tools", category: "design" },
+
+  // Development Tools
   { name: "Git", category: "tools" },
   { name: "GitHub", category: "tools" },
   { name: "VS Code", category: "tools" },
   { name: "Eclipse", category: "tools" },
-  { name: "Wireshark", category: "tools" },
-  { name: "Nmap", category: "tools" },
-  { name: "Kali Linux", category: "tools" },
-  { name: "Burp Suite", category: "tools" },
   { name: "Vercel", category: "tools" },
-  { name: "Windows", category: "tools" },
-  { name: "Linux", category: "tools" },
+
+  // Operating Systems
+  { name: "Windows", category: "operating-systems" },
+  { name: "Linux", category: "operating-systems" },
+
+  // Soft Skills
+  { name: "Hardworking", category: "soft-skills" },
+  { name: "Honest", category: "soft-skills" },
+  { name: "Adaptable", category: "soft-skills" },
+  { name: "Punctual", category: "soft-skills" },
+  { name: "Team Collaboration", category: "soft-skills" },
+  { name: "Visual Communication", category: "soft-skills" },
+  { name: "Creativity", category: "soft-skills" },
+  { name: "Branding", category: "soft-skills" },
 ];
