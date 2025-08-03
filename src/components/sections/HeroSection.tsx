@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FloatingElement, GradientText, MagneticElement } from "../ui/ScrollAnimations";
 import { analytics } from "../../utils/analytics";
+import LazyLoader from "../ui/LazyLoader";
+import OptimizedImage from "../ui/OptimizedImage";
 
 const typingPhrases = [
   "Cybersecurity Enthusiast ",
@@ -46,14 +48,21 @@ export default function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center text-white overflow-hidden font-sans">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        src="/assets/video.mp4"
-      />
+      <LazyLoader
+        fallback={
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 z-0" />
+        }
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          src="/assets/video.mp4"
+          preload="metadata"
+        />
+      </LazyLoader>
       <div className="absolute inset-0 bg-black/60 z-0" />
       
       {/* Animated background elements */}
@@ -83,14 +92,12 @@ export default function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            <img
+            <OptimizedImage
               src="/assets/Landing_page.png"
               alt="Portfolio Landing Page"
               className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain rounded-lg shadow-2xl"
-              style={{
-                filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3))',
-                backdropFilter: 'blur(10px)'
-              }}
+              priority={true}
+              sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"
             />
           </motion.div>
         </FloatingElement>

@@ -4,6 +4,7 @@ import LikeButton from "./LikeButton";
 import { Project } from "../../data/projectsData";
 import { Wrench } from "lucide-react";
 import { analytics } from "../../utils/analytics";
+import OptimizedImage from "./OptimizedImage";
 
 // Map technology names to icon URLs (add more as needed)
 const techIconMap: Record<string, string> = {
@@ -48,12 +49,11 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Image */}
       {project.image && (
         <div className="w-full h-48 bg-gray-100/40 overflow-hidden flex items-center justify-center">
-          <img
+          <OptimizedImage
             src={project.image}
             alt={project.title}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-            style={{ filter: 'brightness(0.95) saturate(1.1)' }}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
       )}

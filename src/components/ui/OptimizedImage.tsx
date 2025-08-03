@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useLazyImage } from '../../hooks/useLazyLoad';
 
 interface OptimizedImageProps {
   src: string;
@@ -24,68 +25,42 @@ export default function OptimizedImage({
   onLoad,
   onError
 }: OptimizedImageProps) {
-  const [imageSrc, setImageSrc] = useState<string>(placeholder);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-  const [isInView, setIsInView] = useState(priority);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
+  // Use the custom lazy loading hook for better performance
+  const { ref: imgRef, imageSrc, isLoading, hasError, isVisible } = useLazyImage(
+    priority ? src : '', // Load immediately if priority
+    { threshold: 0.1, rootMargin: '100px' }
+  );
+  
+  const [currentSrc, setCurrentSrc] = useState<string>(priority ? src : placeholder);
+  const [isImageLoading, setIsImageLoading] = useState(!priority);
 
   useEffect(() => {
-    if (!priority && 'IntersectionObserver' in window) {
-      observerRef.current = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setIsInView(true);
-            observerRef.current?.disconnect();
-          }
-        },
-        {
-          rootMargin: '50px',
-          threshold: 0.1
-        }
-      );
-
-      if (imgRef.current) {
-        observerRef.current.observe(imgRef.current);
-      }
+    if (priority || isVisible) {
+      setCurrentSrc(src);
+      setIsImageLoading(true);
     }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [priority]);
+  }, [src, priority, isVisible]);
 
   useEffect(() => {
-    if (!isInView) return;
-
-    const img = new Image();
-    
-    img.onload = () => {
-      setImageSrc(src);
-      setIsLoading(false);
-      setHasError(false);
+    if (imageSrc && !isLoading) {
+      setCurrentSrc(imageSrc);
+      setIsImageLoading(false);
       onLoad?.();
-    };
-    
-    img.onerror = () => {
-      setImageSrc(fallback);
-      setIsLoading(false);
-      setHasError(true);
+    }
+  }, [imageSrc, isLoading, onLoad]);
+
+  useEffect(() => {
+    if (hasError) {
+      setCurrentSrc(fallback);
+      setIsImageLoading(false);
       onError?.();
-    };
-    
-    img.src = src;
-  }, [src, isInView, fallback, onLoad, onError]);
+    }
+  }, [hasError, fallback, onError]);
 
   const handleError = () => {
-    if (!hasError) {
-      setImageSrc(fallback);
-      setHasError(true);
-      onError?.();
-    }
+    setCurrentSrc(fallback);
+    setIsImageLoading(false);
+    onError?.();
   };
 
   return (
@@ -96,24 +71,25 @@ export default function OptimizedImage({
       animate={{ opacity: isLoading ? 0.7 : 1 }}
       transition={{ duration: 0.3 }}
     >
-      {isLoading && (
+      {isImageLoading && (
         <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
           <div className="w-8 h-8 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
       
       <img
-        src={imageSrc}
+        ref={imgRef}
+        src={currentSrc}
         alt={alt}
         className={`w-full h-full object-cover transition-opacity duration-300 ${
-          isLoading ? 'opacity-0' : 'opacity-100'
+          isImageLoading ? 'opacity-0' : 'opacity-100'
         }`}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
         sizes={sizes}
         onError={handleError}
         onLoad={() => {
-          setIsLoading(false);
+          setIsImageLoading(false);
           onLoad?.();
         }}
       />

@@ -3,6 +3,7 @@ import { skills } from '../../data/skillsData';
 import { Wrench } from "lucide-react";
 import gsap from "gsap";
 import { motion } from 'framer-motion';
+import LazyLoader from '../ui/LazyLoader';
 
 const skillLogoMap: Record<string, string> = {
   'C': 'https://api.iconify.design/logos:c.svg',
@@ -120,22 +121,34 @@ export default function SkillsSection() {
           style={{ minHeight: 320 }}
         >
           {skills.map((skill, i) => (
-            <motion.div
+            <LazyLoader
               key={skill.name}
-              className="gsap-skill-logo-wrapper absolute"
-              style={{
-                left: `${10 + (i % 10) * 8}%`,
-                top: `${10 + Math.floor(i / 10) * 25}%`,
-                zIndex: 2,
-                pointerEvents: "auto",
-              }}
-              ref={el => { wrapperRefs.current[i] = el; }}
-              title={skill.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.05 * i, type: 'spring' }}
+              delay={i * 50}
+              fallback={
+                <div 
+                  className="absolute w-16 h-16 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse rounded-lg"
+                  style={{
+                    left: `${10 + (i % 10) * 8}%`,
+                    top: `${10 + Math.floor(i / 10) * 25}%`,
+                  }}
+                />
+              }
             >
+              <motion.div
+                className="gsap-skill-logo-wrapper absolute"
+                style={{
+                  left: `${10 + (i % 10) * 8}%`,
+                  top: `${10 + Math.floor(i / 10) * 25}%`,
+                  zIndex: 2,
+                  pointerEvents: "auto",
+                }}
+                ref={el => { wrapperRefs.current[i] = el; }}
+                title={skill.name}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.05 * i, type: 'spring' }}
+              >
               <motion.div
                 className="gsap-skill-logo flex flex-col items-center transition-transform"
                 ref={el => { iconRefs.current[i] = el; }}
@@ -165,6 +178,7 @@ export default function SkillsSection() {
                 </motion.span>
               </motion.div>
             </motion.div>
+            </LazyLoader>
           ))}
         </div>
       </div>

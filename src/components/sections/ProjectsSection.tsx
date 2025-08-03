@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { projectsData } from '../../data/projectsData';
 import ProjectCard from '../ui/ProjectCard';
 import { analytics } from '../../utils/analytics';
+import LazyLoader from '../ui/LazyLoader';
 
 const categories = ['all', 'web', 'blockchain', 'ai', 'design'];
 
@@ -89,8 +90,16 @@ export default function ProjectsSection() {
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 items-start">
-          {filteredProjects.map(project => (
-            <ProjectCard key={project.id} project={project} />
+          {filteredProjects.map((project, index) => (
+            <LazyLoader
+              key={project.id}
+              delay={index * 100}
+              fallback={
+                <div className="w-full h-80 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse rounded-lg" />
+              }
+            >
+              <ProjectCard project={project} />
+            </LazyLoader>
           ))}
         </div>
       </div>

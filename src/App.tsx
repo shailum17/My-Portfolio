@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import HomePage from './pages/HomePage';
 import CustomCursor from './components/ui/CustomCursor';
@@ -8,6 +8,7 @@ import PageTransition from './components/ui/PageTransition';
 import ErrorBoundary from './components/ui/ErrorBoundary';
 import { initPerformanceMonitoring, cleanupPerformanceMonitoring } from './utils/performance';
 import { useScrollTracking, useTimeTracking } from './utils/analytics';
+import LazyLoader from './components/ui/LazyLoader';
 
 export default function App() {
   const { trackScrollDepth } = useScrollTracking();

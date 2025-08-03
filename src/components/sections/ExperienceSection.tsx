@@ -5,6 +5,7 @@ import { useMemo, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { internships, certifications } from '../../data/experienceData';
 import { motion } from 'framer-motion';
+import LazyLoader from '../ui/LazyLoader';
 
 export default function ExperienceSection() {
   // Helper: SVG doodle options
@@ -210,11 +211,18 @@ export default function ExperienceSection() {
         <div className="relative max-w-2xl mx-auto">
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-primary/20 rounded" />
           {timelineData.map((item, index) => (
-            <TimelineItem
+            <LazyLoader
               key={item.id}
-              item={item}
-              position={index % 2 === 0 ? 'left' : 'right'}
-            />
+              delay={index * 200}
+              fallback={
+                <div className="w-full h-32 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse rounded-lg mb-8" />
+              }
+            >
+              <TimelineItem
+                item={item}
+                position={index % 2 === 0 ? 'left' : 'right'}
+              />
+            </LazyLoader>
           ))}
         </div>
       </div>
