@@ -12,6 +12,7 @@ interface PerformanceMetrics {
 class PerformanceMonitor {
   private metrics: Partial<PerformanceMetrics> = {};
   private observers: PerformanceObserver[] = [];
+  private isDisposed = false;
 
   constructor() {
     this.initObservers();
@@ -107,9 +108,23 @@ class PerformanceMonitor {
     return { ...this.metrics };
   }
 
-  public disconnect() {
-    this.observers.forEach(observer => observer.disconnect());
+  public dispose() {
+    if (this.isDisposed) return;
+    
+    this.observers.forEach(observer => {
+      try {
+        observer.disconnect();
+      } catch (error) {
+        console.warn('Error disconnecting observer:', error);
+      }
+    });
+    
     this.observers = [];
+    this.isDisposed = true;
+  }
+
+  public disconnect() {
+    this.dispose();
   }
 }
 
@@ -208,8 +223,13 @@ export const assessCoreWebVitals = (metrics: Partial<PerformanceMetrics>) => {
 let performanceMonitor: PerformanceMonitor | null = null;
 
 export const initPerformanceMonitoring = () => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' && !performanceMonitor) {
     performanceMonitor = new PerformanceMonitor();
+    
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      cleanupPerformanceMonitoring();
+    });
     
     // Measure resource timing after page load
     setTimeout(() => {
@@ -230,7 +250,7 @@ export const initPerformanceMonitoring = () => {
 
 export const cleanupPerformanceMonitoring = () => {
   if (performanceMonitor) {
-    performanceMonitor.disconnect();
+    performanceMonitor.dispose();
     performanceMonitor = null;
   }
 };

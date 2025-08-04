@@ -28,9 +28,20 @@ export default defineConfig({
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info', 'console.debug'],
         passes: 2,
+        unsafe: true,
+        unsafe_comps: true,
+        unsafe_Function: true,
+        unsafe_math: true,
+        unsafe_proto: true,
+        unsafe_regexp: true,
+        unsafe_undefined: true,
       },
       mangle: {
         safari10: true,
+        toplevel: true,
+      },
+      format: {
+        comments: false,
       },
     },
     rollupOptions: {
@@ -63,30 +74,26 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: true,
     reportCompressedSize: true,
+    assetsInlineLimit: 4096, // Inline assets smaller than 4KB
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion', 'gsap', 'lucide-react'],
     exclude: ['@types/node'],
+    esbuildOptions: {
+      target: 'es2015',
+    },
   },
   server: {
     port: 5173,
     host: true,
     open: true,
-    headers: {
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https: ws: wss:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
-    }
   },
   preview: {
     port: 4173,
     host: true,
   },
-  css: {
-    devSourcemap: false,
-  },
-  define: {
-    __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
-  },
   esbuild: {
     target: 'es2015',
+    legalComments: 'none',
   },
 }) 

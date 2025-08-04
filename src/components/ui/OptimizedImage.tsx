@@ -78,12 +78,9 @@ export default function OptimizedImage({
       )}
       
       <img
-        ref={imgRef}
         src={currentSrc}
         alt={alt}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${
-          isImageLoading ? 'opacity-0' : 'opacity-100'
-        }`}
+        className="w-full h-full object-cover"
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
         sizes={sizes}

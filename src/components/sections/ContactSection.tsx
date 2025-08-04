@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { analytics } from '../../utils/analytics';
+import { logger } from '../../utils/logger';
+import { contactFormSchema } from '../../utils/validation';
+import { z } from 'zod';
 
 export default function ContactSection() {
   const [form, setForm] = useState({ 
@@ -10,7 +13,7 @@ export default function ContactSection() {
     phone: '', 
     message: '' 
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -28,28 +31,29 @@ export default function ContactSection() {
     setLoading(true);
     setError(''); // Clear any previous errors
 
-    console.log('Contact form submitted');
-    console.log('Form data:', form);
+    logger.info('Contact form submitted');
+    // Don't log sensitive form data
 
     try {
+      // Validate form data
+      const validatedData = contactFormSchema.parse(form);
+      
       const apiUrl = `${window.location.origin}/api/contact`;
-      console.log('Attempting to send email to:', apiUrl);
-      console.log('Form data being sent:', form);
+      logger.info('Attempting to send email to:', apiUrl);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(validatedData),
       });
       
-      console.log('Email API response status:', response.status);
-      console.log('Email API response ok:', response.ok);
+      logger.info('Email API response status:', response.status);
       
       if (response.ok) {
-        const data = await response.json();
-        console.log('Email sent successfully:', data);
+        await response.json();
+        logger.info('Email sent successfully');
         
         // Only show success if email was actually sent
         setSubmitted(true);
@@ -64,29 +68,31 @@ export default function ContactSection() {
           setShowSuccessPopup(false);
         }, 5000);
         
-        console.log('Success message shown - email was sent');
+        logger.info('Success message shown - email was sent');
       } else {
         let errorData;
         try {
           errorData = await response.json();
-        } catch (parseError) {
+        } catch {
           errorData = { message: `HTTP ${response.status}: ${response.statusText}` };
         }
-        console.log('Email API error:', errorData);
+        logger.error('Email API error:', errorData);
         
         // Show error message to user
         setError(errorData.message || 'Failed to send message. Please try again.');
       }
-    } catch (emailErr) {
-      console.log('Email sending failed:', emailErr);
-      console.log('Error name:', emailErr.name);
-      console.log('Error message:', emailErr.message);
-      
-      // Show more specific error messages
-      if (emailErr.name === 'TypeError' && emailErr.message.includes('fetch')) {
-        setError('Network error: Unable to reach the server. Please check your internet connection and try again.');
+    } catch (validationError: unknown) {
+      if (validationError instanceof z.ZodError) {
+        setError('Please check your input and try again');
       } else {
-        setError(`Error: ${emailErr.message}`);
+        logger.error('Email sending failed:', validationError);
+        
+        // Show more specific error messages
+        if (validationError instanceof Error && validationError.name === 'TypeError' && validationError.message.includes('fetch')) {
+          setError('Network error: Unable to reach the server. Please check your internet connection and try again.');
+        } else {
+          setError('An unexpected error occurred. Please try again later.');
+        }
       }
     } finally {
       setLoading(false);
@@ -201,7 +207,7 @@ export default function ContactSection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeSuccessPopup}
-            {...({} as any)}
+            {...({} as React.HTMLAttributes<HTMLDivElement>)}
           >
             <motion.div
               className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl"
@@ -209,7 +215,7 @@ export default function ContactSection() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
-              {...({} as any)}
+              {...({} as React.HTMLAttributes<HTMLDivElement>)}
             >
               <div className="text-center">
                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
@@ -218,7 +224,7 @@ export default function ContactSection() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Message Sent Successfully!</h3>
-                <p className="text-gray-600 mb-6">Thank you for reaching out! I'll get back to you soon.</p>
+                <p className="text-gray-600 mb-6">Thank you for reaching out! I&apos;ll get back to you soon.</p>
                 <button
                   onClick={closeSuccessPopup}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
@@ -236,7 +242,7 @@ export default function ContactSection() {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Contact Me</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Ready to collaborate? Let's discuss your next project or just say hello!
+            Ready to collaborate? Let&apos;s discuss your next project or just say hello!
           </p>
         </div>
 
@@ -255,9 +261,9 @@ export default function ContactSection() {
           >
             <div className="mb-6">
               <p className="text-blue-600 font-semibold text-sm mb-2">Get in Touch</p>
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">Let's Chat, Contact with Me</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Let&apos;s Chat, Contact with Me</h2>
               <p className="text-gray-600 text-sm">
-                Have any questions or feedback? We're here to help. Send us a message, We'll get back to you within 24 hours.
+                Have any questions or feedback? We&apos;re here to help. Send us a message, We&apos;ll get back to you within 24 hours.
               </p>
             </div>
 
