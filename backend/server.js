@@ -11,8 +11,17 @@ const PORT = process.env.PORT || 5000;
 
 // Security middleware
 app.use(helmet());
+const allowedOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allow curl/postman
+    if (allowedOrigins.length === 0 && process.env.NODE_ENV !== 'production') return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 
@@ -80,15 +89,10 @@ app.post('/api/contact', limiter, [
 
     const { firstName, lastName, email, phone, message } = req.body;
 
-    // Log the contact submission
-    console.log('Contact form submission:', {
-      firstName,
-      lastName,
-      email,
-      phone,
-      message,
-      timestamp: new Date().toISOString()
-    });
+    // Minimal log without PII in production
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Contact form submission received at', new Date().toISOString());
+    }
 
     // Check if email is configured
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -196,6 +200,8 @@ app.use('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Portfolio backend server running on port ${PORT}`);
-  console.log(`📧 Email service: ${process.env.EMAIL_USER ? 'Configured' : 'Not configured'}`);
-  console.log(`🌐 Frontend URLs: http://localhost:5173, http://localhost:5174, http://localhost:5175`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`📧 Email service: ${process.env.EMAIL_USER ? 'Configured' : 'Not configured'}`);
+    console.log(`🌐 Frontend URLs: ${allowedOrigins.join(', ') || 'dev-any'}`);
+  }
 }); 

@@ -48,10 +48,13 @@ export const addResourceHints = () => {
 // Optimize font loading
 export const optimizeFontLoading = () => {
   // Add font-display: swap to Google Fonts
-  const fontLink = document.querySelector('link[href*="fonts.googleapis.com"]');
+  const fontLink = document.querySelector('link[href*="fonts.googleapis.com"]') as HTMLLinkElement | null;
   if (fontLink) {
     fontLink.setAttribute('media', 'print');
-    fontLink.setAttribute('onload', "this.media='all'");
+    // Avoid inline JS to comply with stricter CSP
+    (fontLink as HTMLLinkElement).onload = () => {
+      fontLink.setAttribute('media', 'all');
+    };
   }
 };
 

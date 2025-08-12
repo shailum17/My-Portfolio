@@ -7,22 +7,15 @@ const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
 module.exports = async (req, res) => {
-  // Apply rate limiting
-  await contactFormLimiter(req, res);
-  
-  // Restrict CORS to specific domains
-  const allowedOrigins = [
-    'https://yourdomain.com',
-    'https://www.yourdomain.com',
-    'http://localhost:5173', // Development only
-    'http://localhost:3000'  // Development only
-  ];
-  
+  // Restrict CORS to specific domains via env allowlist
+  const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
+  const isDev = process.env.NODE_ENV !== 'production';
+  const devDefaults = ['http://localhost:5173', 'http://localhost:3000'];
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
+  if ((allowedOrigins.length && allowedOrigins.includes(origin)) || (isDev && devDefaults.includes(origin))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
   }
-  
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
@@ -36,6 +29,15 @@ module.exports = async (req, res) => {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Apply rate limiting AFTER preflight early-return
+  try {
+    await contactFormLimiter(req, res);
+  } catch (e) {
+    // limiter already responded 429
+    if ((e && e.message) === 'RATE_LIMITED') return;
+    // Continue for other errors
   }
 
   try {
@@ -77,11 +79,9 @@ module.exports = async (req, res) => {
 
     // Check if email is configured
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      // Don't log sensitive data in production
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Email not configured - logging submission only');
+      if (isDev) {
+        console.log('Email not configured');
       }
-
       return res.status(200).json({
         success: true,
         message: 'Thank you for your message! I will get back to you soon.'
@@ -150,9 +150,8 @@ module.exports = async (req, res) => {
     await transporter.sendMail(ownerMailOptions);
     await transporter.sendMail(confirmationMailOptions);
 
-    // Don't log sensitive data in production
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`Emails sent successfully to ${sanitizedData.email} and ${process.env.EMAIL_USER}`);
+    if (isDev) {
+      console.log('Emails sent successfully');
     }
 
     res.status(200).json({
@@ -161,9 +160,8 @@ module.exports = async (req, res) => {
     });
 
   } catch (error) {
-    // Don't log sensitive error details in production
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Contact form error:', error);
+    if (isDev) {
+      console.error('Contact form error');
     }
     res.status(500).json({
       success: false,

@@ -17,11 +17,13 @@ module.exports = async (req, res) => {
     const emailUser = process.env.EMAIL_USER;
     const emailPass = process.env.EMAIL_PASS;
     
-    console.log('Email configuration check:');
-    console.log('EMAIL_USER exists:', !!emailUser);
-    console.log('EMAIL_PASS exists:', !!emailPass);
-    console.log('EMAIL_USER length:', emailUser ? emailUser.length : 0);
-    console.log('EMAIL_PASS length:', emailPass ? emailPass.length : 0);
+    const isDev = process.env.NODE_ENV !== 'production';
+    if (isDev) {
+      console.log('Email configuration check (dev only):', {
+        hasUser: !!emailUser,
+        hasPass: !!emailPass
+      });
+    }
 
     if (!emailUser || !emailPass) {
       return res.status(200).json({
@@ -46,32 +48,38 @@ module.exports = async (req, res) => {
     // Test connection
     try {
       await transporter.verify();
-      console.log('Email transporter verified successfully');
+      if (isDev) {
+        console.log('Email transporter verified successfully');
+      }
       
       return res.status(200).json({
         success: true,
         message: 'Email configuration is working!',
         details: {
-          emailUser: emailUser,
-          emailPassLength: emailPass.length,
+          emailUser: isDev ? emailUser : undefined,
+          emailPassLength: isDev ? emailPass.length : undefined,
           transporterVerified: true
         }
       });
     } catch (verifyError) {
-      console.error('Transporter verification failed:', verifyError);
+      if (isDev) {
+        console.error('Transporter verification failed:', verifyError.message);
+      }
       
       return res.status(200).json({
         success: false,
         message: 'Email configuration error',
         details: {
-          error: verifyError.message,
-          code: verifyError.code
+          error: isDev ? verifyError.message : 'Verification failed',
+          code: isDev ? verifyError.code : undefined
         }
       });
     }
 
   } catch (error) {
-    console.error('Test email error:', error);
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('Test email error:', error.message);
+    }
     res.status(500).json({
       success: false,
       message: 'Test failed',

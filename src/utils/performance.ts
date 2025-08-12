@@ -28,7 +28,9 @@ class PerformanceMonitor {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
         this.metrics.lcp = lastEntry.startTime;
-        console.log('🚀 LCP:', Math.round(lastEntry.startTime), 'ms');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🚀 LCP:', Math.round(lastEntry.startTime), 'ms');
+        }
       });
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
       this.observers.push(lcpObserver);
@@ -44,7 +46,9 @@ class PerformanceMonitor {
           const fidEntry = entry as PerformanceEventTiming;
           const fid = fidEntry.processingStart - fidEntry.startTime;
           this.metrics.fid = fid;
-          console.log('⚡ FID:', Math.round(fid), 'ms');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('⚡ FID:', Math.round(fid), 'ms');
+          }
         });
       });
       fidObserver.observe({ entryTypes: ['first-input'] });
@@ -65,7 +69,9 @@ class PerformanceMonitor {
           }
         });
         this.metrics.cls = clsValue;
-        console.log('📐 CLS:', clsValue.toFixed(3));
+        if (process.env.NODE_ENV === 'development') {
+          console.log('📐 CLS:', clsValue.toFixed(3));
+        }
       });
       clsObserver.observe({ entryTypes: ['layout-shift'] });
       this.observers.push(clsObserver);
@@ -79,7 +85,9 @@ class PerformanceMonitor {
         const entries = list.getEntries();
         const firstEntry = entries[0];
         this.metrics.fcp = firstEntry.startTime;
-        console.log('🎨 FCP:', Math.round(firstEntry.startTime), 'ms');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🎨 FCP:', Math.round(firstEntry.startTime), 'ms');
+        }
       });
       fcpObserver.observe({ entryTypes: ['first-contentful-paint'] });
       this.observers.push(fcpObserver);
@@ -96,10 +104,12 @@ class PerformanceMonitor {
         this.metrics.domLoad = navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart;
         this.metrics.windowLoad = navigation.loadEventEnd - navigation.loadEventStart;
 
-        console.log('📊 Page Load Metrics:');
-        console.log('  TTFB:', Math.round(this.metrics.ttfb), 'ms');
-        console.log('  DOM Load:', Math.round(this.metrics.domLoad), 'ms');
-        console.log('  Window Load:', Math.round(this.metrics.windowLoad), 'ms');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('📊 Page Load Metrics:');
+          console.log('  TTFB:', Math.round(this.metrics.ttfb), 'ms');
+          console.log('  DOM Load:', Math.round(this.metrics.domLoad), 'ms');
+          console.log('  Window Load:', Math.round(this.metrics.windowLoad), 'ms');
+        }
       }
     });
   }
@@ -165,12 +175,14 @@ export const getMemoryUsage = () => {
       limit: Math.round(memory.jsHeapSizeLimit / 1048576)
     };
     
-    console.log('🧠 Memory Usage:', {
-      used: usage.used + ' MB',
-      total: usage.total + ' MB',
-      limit: usage.limit + ' MB',
-      percentage: Math.round((usage.used / usage.limit) * 100) + '%'
-    });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🧠 Memory Usage:', {
+        used: usage.used + ' MB',
+        total: usage.total + ' MB',
+        limit: usage.limit + ' MB',
+        percentage: Math.round((usage.used / usage.limit) * 100) + '%'
+      });
+    }
 
     return usage;
   }
@@ -181,12 +193,14 @@ export const getMemoryUsage = () => {
 export const getNetworkInfo = () => {
   if ('connection' in navigator) {
     const connection = (navigator as any).connection;
-    console.log('🌐 Network Info:', {
-      effectiveType: connection.effectiveType,
-      downlink: connection.downlink + ' Mbps',
-      rtt: connection.rtt + ' ms',
-      saveData: connection.saveData
-    });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🌐 Network Info:', {
+        effectiveType: connection.effectiveType,
+        downlink: connection.downlink + ' Mbps',
+        rtt: connection.rtt + ' ms',
+        saveData: connection.saveData
+      });
+    }
     return connection;
   }
   return null;
@@ -215,7 +229,9 @@ export const assessCoreWebVitals = (metrics: Partial<PerformanceMetrics>) => {
     else if (metrics.cls > 0.1) assessment.cls = 'needs-improvement';
   }
 
-  console.log('📈 Core Web Vitals Assessment:', assessment);
+  if (process.env.NODE_ENV === 'development') {
+    console.log('📈 Core Web Vitals Assessment:', assessment);
+  }
   return assessment;
 };
 

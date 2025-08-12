@@ -4,6 +4,7 @@ import { analytics } from '../../utils/analytics';
 import { logger } from '../../utils/logger';
 import { contactFormSchema } from '../../utils/validation';
 import { z } from 'zod';
+import { config } from '../../config/env';
 
 export default function ContactSection() {
   const [form, setForm] = useState({ 
@@ -35,10 +36,25 @@ export default function ContactSection() {
     // Don't log sensitive form data
 
     try {
+      // Normalize phone to digits/+ only to satisfy validation
+      const normalizedForm = {
+        ...form,
+        phone: form.phone ? form.phone.replace(/[^\d+]/g, '') : ''
+      };
+
+      // Ensure phone starts with + or 1-9 if provided
+      if (normalizedForm.phone && !/^[+]?[1-9]/.test(normalizedForm.phone)) {
+        // If it doesn't start with + or 1-9, add + prefix
+        if (!normalizedForm.phone.startsWith('+')) {
+          normalizedForm.phone = '+' + normalizedForm.phone;
+        }
+      }
+
       // Validate form data
-      const validatedData = contactFormSchema.parse(form);
-      
-      const apiUrl = `${window.location.origin}/api/contact`;
+      const validatedData = contactFormSchema.parse(normalizedForm);
+
+      // Choose API URL: same-origin in prod; configurable in dev
+      const apiUrl = `${config.apiUrl}/api/contact`;
       logger.info('Attempting to send email to:', apiUrl);
       
       const response = await fetch(apiUrl, {
@@ -79,7 +95,12 @@ export default function ContactSection() {
         logger.error('Email API error:', errorData);
         
         // Show error message to user
-        setError(errorData.message || 'Failed to send message. Please try again.');
+        if (errorData.errors && Array.isArray(errorData.errors)) {
+          const errorMessages = errorData.errors.map((err: any) => err.msg).join(', ');
+          setError(`Validation error: ${errorMessages}`);
+        } else {
+          setError(errorData.message || 'Failed to send message. Please try again.');
+        }
       }
     } catch (validationError: unknown) {
       if (validationError instanceof z.ZodError) {
@@ -338,7 +359,7 @@ export default function ContactSection() {
                     value={form.phone}
                     onChange={handleChange}
                     className="w-full px-3 py-2 bg-white/80 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 placeholder-gray-500 backdrop-blur-sm text-sm"
-                    placeholder="+1 (555) 444-0000"
+                    placeholder="+15554440000"
                   />
                 </div>
 

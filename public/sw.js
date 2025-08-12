@@ -41,38 +41,26 @@ const EXTERNAL_RESOURCES = [
 
 // Install event - cache static files
 self.addEventListener('install', (event) => {
-  // Only log in development
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Service Worker installing...');
-  }
+  // Avoid using process.env in SW; rely on simple flag if needed
   
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then((cache) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Caching static files...');
-        }
+        // optional: console.log('Caching static files...');
         return cache.addAll(urlsToCache);
       })
       .then(() => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Static files cached successfully');
-        }
+        // optional: console.log('Static files cached successfully');
         return self.skipWaiting();
       })
       .catch((error) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error caching static files:', error);
-        }
+        // optional: console.error('Error caching static files:', error);
       })
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Service Worker activating...');
-  }
   
   event.waitUntil(
     caches.keys()
@@ -80,18 +68,14 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
-              if (process.env.NODE_ENV === 'development') {
-                console.log('Deleting old cache:', cacheName);
-              }
+              // optional: console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
       })
       .then(() => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Service Worker activated');
-        }
+        // optional: console.log('Service Worker activated');
         return self.clients.claim();
       })
   );
@@ -141,7 +125,7 @@ async function cacheFirst(request) {
     }
     return networkResponse;
   } catch (error) {
-    console.error('Cache first strategy failed:', error);
+    // optional: console.error('Cache first strategy failed:', error);
     return new Response('Network error', { status: 503 });
   }
 }
@@ -156,9 +140,7 @@ async function networkFirst(request) {
     }
     return networkResponse;
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Network failed, trying cache:', error);
-    }
+    // optional: console.log('Network failed, trying cache:', error);
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
       return cachedResponse;
@@ -183,12 +165,8 @@ self.addEventListener('sync', (event) => {
 async function doBackgroundSync() {
   try {
     // Handle any background sync tasks
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Background sync completed');
-    }
+    // optional: console.log('Background sync completed');
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Background sync failed:', error);
-    }
+    // optional: console.error('Background sync failed:', error);
   }
 } 
