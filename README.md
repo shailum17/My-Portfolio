@@ -1,4 +1,4 @@
-# my-Shailendra
+# My Portfolio
 
 This is a personal portfolio website built with React, Vite, and Tailwind CSS. It showcases the owner's skills, experience, projects, and publications.
 
