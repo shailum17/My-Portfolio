@@ -70,5 +70,24 @@ export const projectsData: Project[] = [
       live: "https://imageomania-flame-five.vercel.app/"
     },
     image: "/assets/projects/imageOmania.svg"
+  },
+  {
+    id: 4,
+    title: "BazaarBuddy",
+    description: "E-commerce platform for local artisans and crafters",
+    technologies: ["React", "Node.js", "Express", "MongoDB", "Socket.io", "JWT", "Tailwind CSS"],
+    categories: ["e-commerce", "web"],
+    period: "July 2025 - Present",
+    highlights: [
+      "Real-time chat & order updates",
+      "Product catalog CRUD + search",
+      "Product catalog CRUD + search",
+      "Vendor/Supplier dashboards"
+    ],
+    links: {
+      github: "https://github.com/shailum17/BazaarBuddy",
+      live: "https://bazaar-buddy-eight.vercel.app/"
+    },
+    image: "/assets/projects/bazaarbuddy.svg"
   }
 ];
