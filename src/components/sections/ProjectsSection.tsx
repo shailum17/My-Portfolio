@@ -18,10 +18,6 @@ export default function ProjectsSection() {
       id="projects"
       className="relative py-20 overflow-hidden"
       style={{
-        backgroundImage: "url('https://cdn.dribbble.com/userupload/11944566/file/original-9ce5e473f45879252c45e52fe613a4d7.jpg?resize=1504x1003&vertical=center')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
         backgroundColor: '#F9FAFB', // fallback
         minHeight: '100vh',
         backgroundAttachment: 'fixed',

@@ -65,22 +65,32 @@ export const internships: Internship[] = [
 ];
 
 export const certifications: Certification[] = [
-  {
+    {
     id: 1,
-    title: "Zero Trust Cyber Associate (ZTCA)",
-    issuer: "",
-    date: "Feb 23rd, 2023",
+    "title": "Hack IITK",
+    "issuer": "IIT Kanpur",
+    "date": "February 2025",
+    "image": "/assets/certificates/HACK-IITK-Certificate.svg"
   },
   {
     id: 2,
-    title: "Fortinet Certified Fundamentals in Cybersecurity Enthusiast",
-    issuer: "",
-    date: "Oct 24th, 2023",
+    "title": "Fortinet Certified Fundamentals in Cybersecurity",
+    "issuer": "Fortinet",
+    "date": "October 2023",
+    "image": "/assets/certificates/Fortinet Certified Fundamentals in Cybersecurity.svg"
   },
   {
-    id: 3,
-    title: "Certificate of Participation – HackIITK Hackathon 2025, IIT Kanpur",
-    issuer: "",
-    date: "Feb 18th, 2025",
+      id: 3,
+    "title": "Zscaler Cybersecurity Fundamentals Associate",
+    "issuer": "Zscaler Academy",
+    "date": "February 2024",
+    "image": "/assets/certificates/Ascaler CyberSecurity Fundamentals Associates.svg"
   },
+  {
+    id: 4,
+    "title": "Zscaler Zero Trust Associate (ZTCA)",
+    "issuer": "Zscaler Academy",
+    "date": "February 2024",
+    "image": "/assets/certificates/Zero Trust Cyber Associate (ZTCA).svg"
+  }
 ];

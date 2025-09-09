@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { internships, certifications } from '../../data/experienceData';
 import { motion } from 'framer-motion';
 import LazyLoader from '../ui/LazyLoader';
+import CertificationCard from '../ui/CertificationCard';
 
 export default function ExperienceSection() {
   // Helper: SVG doodle options
@@ -508,57 +509,22 @@ export function InternshipSection() {
 }
 
 export function CertificationSection() {
-  // Keyframes for accent animation
-  const accentOne = {
-    animation: 'cert-accent-one 5s infinite',
-  };
-  const accentTwo = {
-    animation: 'cert-accent-two 5s infinite',
-  };
   return (
     <section id="certifications" className="py-20 bg-transparent relative">
-      <style>{`
-        @keyframes cert-accent-one {
-          0% { top: 30px; left: 20px; }
-          20% { top: 50px; left: 40px; }
-          40% { top: 80px; left: 70px; }
-          50% { top: 60px; left: 40px; }
-          60% { top: 35px; left: 90px; }
-          80% { top: 70px; left: 70px; }
-          100% { top: 30px; left: 20px; }
-        }
-        @keyframes cert-accent-two {
-          0% { top: 90px; left: 90px; }
-          20% { top: 50px; left: 40px; }
-          40% { top: 60px; left: 20px; }
-          50% { top: 80px; left: 30px; }
-          60% { top: 35px; left: 90px; }
-          80% { top: 70px; left: 60px; }
-          100% { top: 90px; left: 90px; }
-        }
-      `}</style>
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-extrabold mb-12 text-center text-dark">Certifications</h2>
-        <div className="flex flex-wrap justify-center gap-8">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-8">
           {certifications.map((cert, idx) => (
-            <div key={cert.id} className="relative w-[285px] h-[381px] flex items-center justify-center">
-              {/* Animated accent circles */}
-              <div className="absolute w-[90px] h-[90px] bg-purple-700 rounded-full filter blur-md opacity-80 z-0" style={{ ...accentOne }} />
-              <div className="absolute w-[90px] h-[90px] bg-emerald-400 rounded-full filter blur-md opacity-80 z-0" style={{ ...accentTwo }} />
-              {/* Glass card */}
-              <div className="relative z-10 w-[285px] h-[381px] rounded-2xl bg-white/55 backdrop-blur-lg border border-white/30 shadow-xl flex flex-col items-center justify-between p-10" style={{ boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.18)' }}>
-                {/* Icon */}
-                <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-200 via-orange-200 to-amber-300 shadow mb-4">
-                  <svg width="48" height="48" fill="none" viewBox="0 0 24 24" className="text-yellow-700"><path d="M12 2l2.09 6.26L20 9.27l-5 3.64L16.18 20 12 16.77 7.82 20 9 12.91l-5-3.64 5.91-.91L12 2z" fill="currentColor"/></svg>
-                </div>
-                {/* Title */}
-                <div className="flex-1 flex flex-col items-center justify-center w-full">
-                  <span className="block text-center text-xl font-semibold text-gray-900 mb-4 break-words">{cert.title}</span>
-                </div>
-                {/* Date */}
-                <span className="block text-center italic text-lg text-gray-700/80 font-semibold mt-4">{cert.date}</span>
+            <LazyLoader
+              key={cert.id}
+              delay={idx * 100}
+              fallback={
+                <div className="w-full h-80 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse rounded-lg" />
+              }>
+              <div className="break-inside-avoid mb-8">
+                <CertificationCard cert={cert} />
               </div>
-            </div>
+            </LazyLoader>
           ))}
         </div>
       </div>
