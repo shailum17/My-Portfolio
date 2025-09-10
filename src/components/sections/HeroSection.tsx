@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { FloatingElement, GradientText, MagneticElement } from "../ui/ScrollAnimations";
 import { analytics } from "../../utils/analytics";
 import LazyLoader from "../ui/LazyLoader";
@@ -45,15 +45,28 @@ function useTypingEffect(phrases: string[], speed = 80, pause = 1200) {
 
 export default function HeroSection() {
   const typedSubtitle = useTypingEffect(typingPhrases);
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.5, 0]);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center text-white overflow-hidden font-sans">
+    <motion.section
+      id="hero"
+      ref={targetRef}
+      className="relative min-h-screen flex items-center justify-center text-white overflow-hidden font-sans"
+      style={{ opacity }}
+    >
       <LazyLoader
         fallback={
           <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 z-0" />
         }
       >
-        <video
+        <motion.video
           autoPlay
           loop
           muted
@@ -61,6 +74,7 @@ export default function HeroSection() {
           className="absolute inset-0 w-full h-full object-cover z-0"
           src="/assets/video.mp4"
           preload="metadata"
+          style={{ y }}
         />
       </LazyLoader>
       <div className="absolute inset-0 bg-black/60 z-0" />
@@ -209,6 +223,6 @@ export default function HeroSection() {
           />
         </motion.div>
       </motion.div>
-    </section>
+    </motion.section>
   );
 }
