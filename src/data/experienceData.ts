@@ -23,6 +23,16 @@ export interface Certification {
 export const internships: Internship[] = [
   {
     id: 1,
+    title: "Web Development Intern",
+    company: "Vault of Code",
+    type: "Internship",
+    period: "August 2025 · 1 Months",
+    location: "Remote",
+    skills: ["Web Development", "Landing Page Development", "HTML","CSS"," JavaScript","React","TypeScript","Tailwind CSS"],
+    image: "/assets/Internship/vaultofcode.png",
+  },
+   {
+    id: 2,
     title: "Graphic Designer",
     company: "Amity Coding Club",
     type: "Full-time",
@@ -32,7 +42,7 @@ export const internships: Internship[] = [
     image: "/assets/Internship/amity_coding_club_logo.jpeg",
   },
   {
-    id: 2,
+    id: 3,
     title: "Graphic Design Intern",
     company: "EXPOSE TRENDZE Manufacturer of Leather Footwear",
     type: "Internship",
@@ -43,7 +53,7 @@ export const internships: Internship[] = [
     image: "/assets/Internship/expose-trendze-logo.png",
   },
   {
-    id: 3,
+    id: 4,
     title: "Intern",
     company: "Prodigy InfoTech",
     type: "Internship",
@@ -54,7 +64,7 @@ export const internships: Internship[] = [
     image: "/assets/Internship/prodigy_infotech_logo.jpeg",
   },
   {
-    id: 4,
+    id: 5,
     title: "Student Ambassador",
     company: "LetsUpgrade",
     type: "Part-time",
