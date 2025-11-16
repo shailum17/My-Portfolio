@@ -2,25 +2,8 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import LikeButton from "./LikeButton";
 import { Project } from "../../data/projectsData";
-import { Wrench } from "lucide-react";
 import { analytics } from "../../utils/analytics";
 import OptimizedImage from "./OptimizedImage";
-
-// Map technology names to icon URLs (add more as needed)
-const techIconMap: Record<string, string> = {
-  React: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-  Solidity: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/solidity/solidity-original.svg",
-  MongoDB: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-  JWT: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jwt/jwt-original.svg",
-  Nodejs: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-  Express: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
-  "Google Maps API": "/favicon.ico",
-  "OpenWeather API": "/favicon.ico",
-  HTML: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-  CSS: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-  JavaScript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-  Bootstrap: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
-};
 
 export default function ProjectCard({ project }: { project: Project }) {
   const cardRef = useRef<HTMLDivElement>(null);

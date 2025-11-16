@@ -6,8 +6,8 @@ import SectionTransition, { StaggeredItem } from '../components/ui/SectionTransi
 // Lazy load sections that are below the fold
 const SkillsSection = lazy(() => import('../components/sections/SkillsSection'));
 const PublicationsSection = lazy(() => import('../components/sections/PublicationsSection'));
-const InternshipSection = lazy(() => import('../components/sections/ExperienceSection').then(module => ({ default: module.InternshipSection })));
-const CertificationSection = lazy(() => import('../components/sections/ExperienceSection').then(module => ({ default: module.CertificationSection })));
+const InternshipSection = lazy(() => import('../components/sections/InternshipSection'));
+const CertificationSection = lazy(() => import('../components/sections/CertificationSection'));
 const ProjectsSection = lazy(() => import('../components/sections/ProjectsSection'));
 const ExperienceSection = lazy(() => import('../components/sections/ExperienceSection').then(module => ({ default: module.default })));
 const ContactSection = lazy(() => import('../components/sections/ContactSection'));

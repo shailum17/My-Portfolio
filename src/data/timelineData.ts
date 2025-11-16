@@ -3,7 +3,7 @@ const timelineData = [
     id: 1,
     title: 'Bachelor of Technology in Computer Science',
     period: '2022 - 2026',
-    description: 'Amity University Madhya Pradesh. CGPA: 8.13 (in progress)'
+    description: 'Amity University Madhya Pradesh. CGPA: 8.12 (in progress)'
   },
   {
     id: 2,

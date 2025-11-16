@@ -6,7 +6,7 @@ interface ParallaxSectionProps {
   speed?: number;
 }
 
-export default function ParallaxSection({ children, speed = 0.5 }: ParallaxSectionProps) {
+export default function ParallaxSection({ children }: ParallaxSectionProps) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,

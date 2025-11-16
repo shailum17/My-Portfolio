@@ -59,7 +59,7 @@ export default function InternshipTimelineItem({ item, position }: InternshipTim
               <div className="text-xs text-gray-500 italic">{item.location}</div>
               {item.skills && (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {item.skills.map((skill, i) => (
+                  {item.skills.map((skill, _i) => (
                     <span key={skill} className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 shadow">{skill}</span>
                   ))}
                 </div>
@@ -127,7 +127,7 @@ export default function InternshipTimelineItem({ item, position }: InternshipTim
               <div className="text-xs text-gray-500 italic">{item.location}</div>
               {item.skills && (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {item.skills.map((skill, i) => (
+                  {item.skills.map((skill, _i) => (
                     <span key={skill} className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 shadow">{skill}</span>
                   ))}
                 </div>

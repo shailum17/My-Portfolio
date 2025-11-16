@@ -92,61 +92,131 @@ const getSkillIcon = (skillName: string) => {
 };
 
 export default function SkillsSection() {
+  // Split skills into three rows
+  const skillsPerRow = Math.ceil(skills.length / 3);
+  const firstRowSkills = skills.slice(0, skillsPerRow);
+  const secondRowSkills = skills.slice(skillsPerRow, skillsPerRow * 2);
+  const thirdRowSkills = skills.slice(skillsPerRow * 2);
+
+  // Duplicate skills for seamless loop
+  const firstRowDuplicated = [...firstRowSkills, ...firstRowSkills];
+  const secondRowDuplicated = [...secondRowSkills, ...secondRowSkills];
+  const thirdRowDuplicated = [...thirdRowSkills, ...thirdRowSkills];
 
   return (
-    <section className="py-20 bg-white" id="skills">
-      <div className="container mx-auto px-4">
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-4xl font-bold mb-4 text-gray-900">
-            Skills & Technologies
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Technologies and tools I work with
-          </p>
-        </motion.div>
-        
-        {/* Simple Grid Layout */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-8 max-w-6xl mx-auto">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              className="flex flex-col items-center group cursor-pointer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ 
-                duration: 0.5, 
-                delay: index * 0.05 
-              }}
-              whileHover={{ 
-                scale: 1.1,
-                transition: { duration: 0.2 }
-              }}
-              title={skill.name}
-            >
-              {/* Skill Icon */}
-              <div className="w-12 h-12 flex items-center justify-center mb-2">
-                {skillLogoMap[skill.name] ? (
-                  <img
-                    src={skillLogoMap[skill.name]}
-                    alt={skill.name}
-                    className="w-12 h-12 object-contain transition-all duration-300 group-hover:scale-110"
-                    draggable={false}
-                  />
-                ) : (
-                  <div className="w-12 h-12 flex items-center justify-center text-3xl transition-all duration-300 group-hover:scale-110">
-                    {getSkillIcon(skill.name)}
+    <section className="relative bg-white overflow-hidden" id="skills">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, #6366f1 0%, transparent 50%), 
+                           radial-gradient(circle at 75% 75%, #8b5cf6 0%, transparent 50%)`,
+        }}></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 py-20">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">
+              Skills & Technologies
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Technologies and tools I work with
+            </p>
+          </motion.div>
+          
+          {/* Marquee Container - Three Rows */}
+          <div className="space-y-6">
+            {/* First Row - Moving Left */}
+            <div className="marquee-container">
+              <div className="marquee-content marquee-left">
+                {firstRowDuplicated.map((skill, index) => (
+                  <div
+                    key={`row1-${skill.name}-${index}`}
+                    className="marquee-item"
+                    title={skill.name}
+                  >
+                    <div className="w-16 h-16 flex items-center justify-center bg-gray-50 backdrop-blur-sm rounded-lg p-2 border border-gray-200 hover:bg-gray-100 hover:shadow-lg hover:border-indigo-300 transition-all duration-300">
+                      {skillLogoMap[skill.name] ? (
+                        <img
+                          src={skillLogoMap[skill.name]}
+                          alt={skill.name}
+                          className="w-12 h-12 object-contain"
+                          draggable={false}
+                        />
+                      ) : (
+                        <div className="w-12 h-12 flex items-center justify-center text-3xl">
+                          {getSkillIcon(skill.name)}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
+                ))}
               </div>
-            </motion.div>
-          ))}
+            </div>
+
+            {/* Second Row - Moving Right */}
+            <div className="marquee-container">
+              <div className="marquee-content marquee-right">
+                {secondRowDuplicated.map((skill, index) => (
+                  <div
+                    key={`row2-${skill.name}-${index}`}
+                    className="marquee-item"
+                    title={skill.name}
+                  >
+                    <div className="w-16 h-16 flex items-center justify-center bg-gray-50 backdrop-blur-sm rounded-lg p-2 border border-gray-200 hover:bg-gray-100 hover:shadow-lg hover:border-purple-300 transition-all duration-300">
+                      {skillLogoMap[skill.name] ? (
+                        <img
+                          src={skillLogoMap[skill.name]}
+                          alt={skill.name}
+                          className="w-12 h-12 object-contain"
+                          draggable={false}
+                        />
+                      ) : (
+                        <div className="w-12 h-12 flex items-center justify-center text-3xl">
+                          {getSkillIcon(skill.name)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Third Row - Moving Left */}
+            <div className="marquee-container">
+              <div className="marquee-content marquee-left">
+                {thirdRowDuplicated.map((skill, index) => (
+                  <div
+                    key={`row3-${skill.name}-${index}`}
+                    className="marquee-item"
+                    title={skill.name}
+                  >
+                    <div className="w-16 h-16 flex items-center justify-center bg-gray-50 backdrop-blur-sm rounded-lg p-2 border border-gray-200 hover:bg-gray-100 hover:shadow-lg hover:border-blue-300 transition-all duration-300">
+                      {skillLogoMap[skill.name] ? (
+                        <img
+                          src={skillLogoMap[skill.name]}
+                          alt={skill.name}
+                          className="w-12 h-12 object-contain"
+                          draggable={false}
+                        />
+                      ) : (
+                        <div className="w-12 h-12 flex items-center justify-center text-3xl">
+                          {getSkillIcon(skill.name)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

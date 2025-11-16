@@ -1,5 +1,14 @@
 const { contactFormLimiter } = require('./middleware/rateLimit');
 
+// Simple sanitization function to prevent XSS
+const sanitizeInput = (input) => {
+  if (typeof input !== 'string') return '';
+  return input
+    .replace(/[<>]/g, '') // Remove < and > to prevent HTML injection
+    .trim()
+    .slice(0, 1000); // Limit length
+};
+
 module.exports = async (req, res) => {
   // Restrict CORS to specific domains via env allowlist
   const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
@@ -32,10 +41,18 @@ module.exports = async (req, res) => {
       if ((e && e.message) === 'RATE_LIMITED') return;
     }
 
-    const { firstName, lastName, email, phone, message } = req.body;
+    const { firstName, lastName, email, message } = req.body;
+
+    // Sanitize inputs
+    const sanitizedData = {
+      firstName: sanitizeInput(firstName),
+      lastName: sanitizeInput(lastName),
+      email: sanitizeInput(email),
+      message: sanitizeInput(message)
+    };
 
     // Basic validation
-    if (!firstName || !lastName || !email || !message) {
+    if (!sanitizedData.firstName || !sanitizedData.lastName || !sanitizedData.email || !sanitizedData.message) {
       return res.status(400).json({
         error: 'Missing required fields',
         message: 'Please fill in all required fields'
@@ -44,7 +61,7 @@ module.exports = async (req, res) => {
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(sanitizedData.email)) {
       return res.status(400).json({
         error: 'Invalid email',
         message: 'Please provide a valid email address'
@@ -58,10 +75,27 @@ module.exports = async (req, res) => {
       timestamp: new Date().toISOString()
     });
 
-  } catch (error) {
+  } catch (_error) {
+    // Enhanced error logging with context
+    const errorContext = {
+      endpoint: 'contact-simple',
+      method: req.method,
+      timestamp: new Date().toISOString(),
+      error: _error.message || 'Unknown error',
+      stack: process.env.NODE_ENV !== 'production' ? _error.stack : undefined
+    };
+    
     if (process.env.NODE_ENV !== 'production') {
-      console.error('Contact form error');
+      console.error('Contact form error:', errorContext);
+    } else {
+      // In production, log only essential info without stack trace
+      console.error('Contact form error:', {
+        endpoint: errorContext.endpoint,
+        timestamp: errorContext.timestamp,
+        error: errorContext.error
+      });
     }
+    
     res.status(500).json({
       success: false,
       message: 'Sorry, there was an error processing your message. Please try again later.'

@@ -1,6 +1,15 @@
 const { Resend } = require('resend');
 const { contactFormLimiter } = require('./middleware/rateLimit');
 
+// Simple sanitization function to prevent XSS
+const sanitizeInput = (input) => {
+  if (typeof input !== 'string') return '';
+  return input
+    .replace(/[<>]/g, '') // Remove < and > to prevent HTML injection
+    .trim()
+    .slice(0, 1000); // Limit length
+};
+
 module.exports = async (req, res) => {
   // Restrict CORS to specific domains via env allowlist
   const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
@@ -35,8 +44,17 @@ module.exports = async (req, res) => {
 
     const { firstName, lastName, email, phone, message } = req.body;
 
+    // Sanitize inputs
+    const sanitizedData = {
+      firstName: sanitizeInput(firstName),
+      lastName: sanitizeInput(lastName),
+      email: sanitizeInput(email),
+      phone: phone ? sanitizeInput(phone) : '',
+      message: sanitizeInput(message)
+    };
+
     // Basic validation
-    if (!firstName || !lastName || !email || !message) {
+    if (!sanitizedData.firstName || !sanitizedData.lastName || !sanitizedData.email || !sanitizedData.message) {
       return res.status(400).json({
         error: 'Missing required fields',
         message: 'Please fill in all required fields'
@@ -45,7 +63,7 @@ module.exports = async (req, res) => {
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(sanitizedData.email)) {
       return res.status(400).json({
         error: 'Invalid email',
         message: 'Please provide a valid email address'
@@ -63,20 +81,20 @@ module.exports = async (req, res) => {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     // Email to portfolio owner
-    const ownerEmail = await resend.emails.send({
+    await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
       to: ['your-email@example.com'], // Replace with your email
-      subject: `New Contact Form Submission from ${firstName} ${lastName}`,
+      subject: `New Contact Form Submission from ${sanitizedData.firstName} ${sanitizedData.lastName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #4F46E5;">New Contact Form Submission</h2>
           <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
+            <p><strong>Name:</strong> ${sanitizedData.firstName} ${sanitizedData.lastName}</p>
+            <p><strong>Email:</strong> ${sanitizedData.email}</p>
+            ${sanitizedData.phone ? `<p><strong>Phone:</strong> ${sanitizedData.phone}</p>` : ''}
             <p><strong>Message:</strong></p>
             <div style="background: white; padding: 15px; border-radius: 5px; margin-top: 10px;">
-              ${message.replace(/\n/g, '<br>')}
+              ${sanitizedData.message.replace(/\n/g, '<br>')}
             </div>
           </div>
           <p style="color: #666; font-size: 12px;">
@@ -87,19 +105,19 @@ module.exports = async (req, res) => {
     });
 
     // Confirmation email to sender
-    const confirmationEmail = await resend.emails.send({
+    await resend.emails.send({
       from: 'Shailendra Mourya <onboarding@resend.dev>',
-      to: [email],
+      to: [sanitizedData.email],
       subject: 'Thank you for contacting Shailendra Mourya',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #4F46E5;">Thank you for reaching out!</h2>
-          <p>Dear ${firstName},</p>
+          <p>Dear ${sanitizedData.firstName},</p>
           <p>Thank you for contacting me through my portfolio. I have received your message and will get back to you as soon as possible.</p>
           <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0;">Your Message:</h3>
             <div style="background: white; padding: 15px; border-radius: 5px;">
-              ${message.replace(/\n/g, '<br>')}
+              ${sanitizedData.message.replace(/\n/g, '<br>')}
             </div>
           </div>
           <p>Best regards,<br>Shailendra Mourya</p>
@@ -120,10 +138,29 @@ module.exports = async (req, res) => {
       message: 'Thank you for your message! I will get back to you soon.'
     });
 
-  } catch (error) {
+  } catch (_error) {
+    // Enhanced error logging with context
+    const errorContext = {
+      endpoint: 'contact-resend',
+      method: req.method,
+      timestamp: new Date().toISOString(),
+      error: _error.message || 'Unknown error',
+      resendConfigured: !!process.env.RESEND_API_KEY,
+      stack: process.env.NODE_ENV !== 'production' ? _error.stack : undefined
+    };
+    
     if (process.env.NODE_ENV !== 'production') {
-      console.error('Contact form error');
+      console.error('Contact form error:', errorContext);
+    } else {
+      // In production, log only essential info without stack trace
+      console.error('Contact form error:', {
+        endpoint: errorContext.endpoint,
+        timestamp: errorContext.timestamp,
+        error: errorContext.error,
+        resendConfigured: errorContext.resendConfigured
+      });
     }
+    
     res.status(500).json({
       success: false,
       message: 'Sorry, there was an error sending your message. Please try again later.'

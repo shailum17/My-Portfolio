@@ -152,25 +152,25 @@ export default function AboutMeSection() {
               className="text-base md:text-[17px] text-gray-700 font-sans"
               variants={itemVariants}
             >
-              I'm Shailendra Mourya, a versatile and driven Computer Science undergraduate with hands-on experience in full-stack web development, graphic design, and foundational knowledge in cybersecurity. I'm passionate about using technology to build secure, user-friendly, and visually engaging digital solutions.
+              I&apos;m Shailendra Mourya, a versatile and driven Computer Science undergraduate with hands-on experience in full-stack web development, graphic design, and foundational knowledge in cybersecurity. I&apos;m passionate about using technology to build secure, user-friendly, and visually engaging digital solutions.
             </motion.p>
             <motion.p 
               className="text-base md:text-[17px] text-gray-700 font-sans"
               variants={itemVariants}
             >
-              I've contributed to projects such as a blockchain-based voting platform with biometric authentication, AI-powered travel planning websites, and creative design galleries. With strong programming skills in C, C++, Python, Java, and JavaScript, I enjoy solving complex problems and staying updated with emerging tech trends.
+              I&apos;ve contributed to projects such as a blockchain-based voting platform with biometric authentication, AI-powered travel planning websites, and creative design galleries. With strong programming skills in C, C++, Python, Java, and JavaScript, I enjoy solving complex problems and staying updated with emerging tech trends.
             </motion.p>
             <motion.p 
               className="text-base md:text-[17px] text-gray-700 font-sans"
               variants={itemVariants}
             >
-              In cybersecurity, I've explored the fundamentals and worked with tools like Burp Suite, OWASP ZAP, and Kali Linux. On the creative side, I've completed internships and freelance work using Figma, Canva, and Adobe Photoshop.
+              In cybersecurity, I&apos;ve explored the fundamentals and worked with tools like Burp Suite, OWASP ZAP, and Kali Linux. On the creative side, I&apos;ve completed internships and freelance work using Figma, Canva, and Adobe Photoshop.
             </motion.p>
             <motion.p 
               className="text-base md:text-[17px] text-gray-700 font-sans"
               variants={itemVariants}
             >
-              Whether it's strengthening digital security or crafting seamless interfaces, I approach each project with creativity, curiosity, and a continuous learning mindset. I'm always eager to collaborate, grow, and create meaningful impact through technology.
+              Whether it&apos;s strengthening digital security or crafting seamless interfaces, I approach each project with creativity, curiosity, and a continuous learning mindset. I&apos;m always eager to collaborate, grow, and create meaningful impact through technology.
             </motion.p>
             <motion.div 
               className="flex flex-wrap gap-3 mt-4"

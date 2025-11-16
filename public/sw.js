@@ -1,4 +1,3 @@
-const CACHE_NAME = 'portfolio-cache-v2';
 const STATIC_CACHE = 'static-v2';
 const DYNAMIC_CACHE = 'dynamic-v2';
 
@@ -14,30 +13,7 @@ const urlsToCache = [
   '/assets/education/bg.png'
 ];
 
-// External resources to cache
-const EXTERNAL_RESOURCES = [
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;700&display=swap',
-  'https://api.iconify.design/logos/react.svg',
-  'https://api.iconify.design/logos/nodejs-icon.svg',
-  'https://api.iconify.design/logos/javascript.svg',
-  'https://api.iconify.design/logos/python.svg',
-  'https://api.iconify.design/logos/java.svg',
-  'https://api.iconify.design/logos/html-5.svg',
-  'https://api.iconify.design/logos/css-3.svg',
-  'https://api.iconify.design/logos/bootstrap.svg',
-  'https://api.iconify.design/logos/git-icon.svg',
-  'https://api.iconify.design/logos/github-icon.svg',
-  'https://api.iconify.design/logos/visual-studio-code.svg',
-  'https://api.iconify.design/logos/mysql.svg',
-  'https://api.iconify.design/logos/mongodb-icon.svg',
-  'https://api.iconify.design/logos/vercel-icon.svg',
-  'https://api.iconify.design/logos/microsoft-windows.svg',
-  'https://api.iconify.design/logos/linux-tux.svg',
-  'https://img.icons8.com/color/96/canva.png',
-  'https://img.icons8.com/color/96/adobe-photoshop.png',
-  'https://img.icons8.com/color/96/artificial-intelligence.png',
-  'https://www.svgrepo.com/show/330767/kalilinux.svg'
-];
+
 
 // Install event - cache static files
 self.addEventListener('install', (event) => {
@@ -53,8 +29,8 @@ self.addEventListener('install', (event) => {
         // optional: console.log('Static files cached successfully');
         return self.skipWaiting();
       })
-      .catch((error) => {
-        // optional: console.error('Error caching static files:', error);
+      .catch((_error) => {
+        // optional: console.error('Error caching static files:', _error);
       })
   );
 });
@@ -124,8 +100,8 @@ async function cacheFirst(request) {
       cache.put(request, networkResponse.clone());
     }
     return networkResponse;
-  } catch (error) {
-    // optional: console.error('Cache first strategy failed:', error);
+  } catch (_error) {
+    // optional: console.error('Cache first strategy failed:', _error);
     return new Response('Network error', { status: 503 });
   }
 }
@@ -139,8 +115,8 @@ async function networkFirst(request) {
       cache.put(request, networkResponse.clone());
     }
     return networkResponse;
-  } catch (error) {
-    // optional: console.log('Network failed, trying cache:', error);
+  } catch (_error) {
+    // optional: console.log('Network failed, trying cache:', _error);
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
       return cachedResponse;
@@ -166,7 +142,7 @@ async function doBackgroundSync() {
   try {
     // Handle any background sync tasks
     // optional: console.log('Background sync completed');
-  } catch (error) {
-    // optional: console.error('Background sync failed:', error);
+  } catch (_error) {
+    // optional: console.error('Background sync failed:', _error);
   }
 } 

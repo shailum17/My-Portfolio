@@ -1,9 +1,9 @@
+/* Import custom styles */
+@import './skills.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import custom styles */
-@import './skills.css';
 
 /* Performance optimizations */
 * {

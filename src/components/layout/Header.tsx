@@ -7,23 +7,31 @@ export default function Header() {
   const [currentSection, setCurrentSection] = useState('hero');
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      
-      // Determine which section is currently in view
-      const sections = ['hero', 'about', 'skills', 'experience', 'internships', 'projects', 'publications', 'certifications', 'contact'];
-      const scrollPosition = window.scrollY + 100; // Offset for header height
-      
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
-        if (section && section.offsetTop <= scrollPosition) {
-          setCurrentSection(sections[i]);
-          break;
-        }
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+          
+          // Determine which section is currently in view
+          const sections = ['hero', 'about', 'skills', 'experience', 'internships', 'projects', 'publications', 'certifications', 'contact'];
+          const scrollPosition = window.scrollY + 100; // Offset for header height
+          
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const section = document.getElementById(sections[i]);
+            if (section && section.offsetTop <= scrollPosition) {
+              setCurrentSection(sections[i]);
+              break;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -99,14 +107,6 @@ export default function Header() {
           mobileBg: 'bg-white/95'
         };
     }
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
   };
 
   const styles = getHeaderStyles();

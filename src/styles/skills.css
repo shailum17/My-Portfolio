@@ -1,39 +1,94 @@
-/* Simple Skills Section Styles */
-
-.skills-section {
+/* Marquee Container */
+.marquee-container {
   position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1rem 0;
 }
 
-/* Skill icon hover effects */
-.skill-icon {
-  transition: all 0.3s ease;
+/* Marquee Content */
+.marquee-content {
+  display: flex;
+  gap: 4rem;
+  width: fit-content;
+}
+
+/* Marquee Item */
+.marquee-item {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
   cursor: pointer;
 }
 
-.skill-icon:hover {
+.marquee-item:hover {
   transform: scale(1.1);
 }
 
-.skill-icon img {
-  transition: all 0.3s ease;
+/* Scroll Left Animation */
+.marquee-left {
+  animation: scroll-left 40s linear infinite;
 }
 
-.skill-icon:hover img {
-  filter: brightness(1.1);
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Scroll Right Animation */
+.marquee-right {
+  animation: scroll-right 40s linear infinite;
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Pause on hover (optional) */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .skill-icon {
-    width: 2.5rem !important;
-    height: 2.5rem !important;
+  .marquee-content {
+    gap: 3rem;
+  }
+  
+  .marquee-item .w-16 {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+  
+  .marquee-item img,
+  .marquee-item > div > div {
+    width: 3rem !important;
+    height: 3rem !important;
   }
 }
 
 @media (max-width: 640px) {
-  .skill-icon {
-    width: 2rem !important;
-    height: 2rem !important;
+  .marquee-content {
+    gap: 2rem;
+  }
+  
+  .marquee-item .w-16 {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+  
+  .marquee-item img,
+  .marquee-item > div > div {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
   }
 }
 

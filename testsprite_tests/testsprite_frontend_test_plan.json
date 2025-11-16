@@ -1,0 +1,569 @@
+[
+  {
+    "id": "TC001",
+    "title": "Hero Section Rendering and Animation",
+    "description": "Verify that the Hero Section renders correctly with the animated introduction and the call-to-action button is functional.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the homepage to view the Hero Section."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the animated introduction text is visible and animates as expected."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the call-to-action button is present and clickable."
+      },
+      {
+        "type": "action",
+        "description": "Click the call-to-action button."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the expected navigation or action triggered by the button."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "About Me Section Content and Responsiveness",
+    "description": "Ensure the About Me Section displays the owner's personal background and adapts to various screen sizes.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the About Me Section."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all expected personal information and background content is visible."
+      },
+      {
+        "type": "action",
+        "description": "Resize browser window to mobile, tablet, and desktop viewports."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that the layout and text remains readable and well formatted at all sizes."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Skills Section 3D Particle Ring and Marquee",
+    "description": "Validate that the Skills Section displays the interactive 3D particle ring and the animated marquee rows with skill logos smoothly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Skills Section."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the 3D particle ring renders and interacts with user input (e.g., mouse movement)."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm marquee rows scroll horizontally with animated skill logos."
+      },
+      {
+        "type": "action",
+        "description": "Interact with the particle ring elements if applicable."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure interaction triggers expected animation changes or effects."
+      },
+      {
+        "type": "action",
+        "description": "Test on different device viewports for responsiveness."
+      },
+      {
+        "type": "assertion",
+        "description": "Check no frame drops or stuttering during animations."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Projects Section Filtering and Project Cards",
+    "description": "Check that the Projects Section allows filtering and displays detailed project cards correctly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Projects Section."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all project cards are visible by default."
+      },
+      {
+        "type": "action",
+        "description": "Use the filtering controls to filter projects by category or tag."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that only projects matching the filter criteria are displayed."
+      },
+      {
+        "type": "action",
+        "description": "Click on a project card."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify detailed information about the project is displayed correctly."
+      },
+      {
+        "type": "action",
+        "description": "Apply multiple filters consecutively including boundary case of no matches."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm appropriate messages for empty states and no errors."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Experience Section Timeline Interaction",
+    "description": "Ensure the professional timeline in the Experience Section renders correctly and is navigable.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Experience Section."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify each timeline item including internships and job history is displayed chronologically."
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the timeline vertically."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that timeline items load smoothly with any scroll-triggered animations."
+      },
+      {
+        "type": "action",
+        "description": "Test navigation via keyboard and screen readers for accessibility."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure timeline content is accessible and focus states are visible."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Publications Section List and Accessibility",
+    "description": "Validate that academic and research publications are listed correctly and accessible.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Publications Section."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all publication entries are displayed with correct metadata (title, authors, date)."
+      },
+      {
+        "type": "action",
+        "description": "Check links to publication sources (if any) are functional."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure screen readers can correctly read publication list items."
+      },
+      {
+        "type": "action",
+        "description": "Test responsive layout on various devices."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no overflow or layout breaking occurs."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Contact Form Validation and Sanitization",
+    "description": "Confirm that the contact form input fields validate user input with Zod schema and sanitize inputs to prevent security vulnerabilities.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the Contact Section."
+      },
+      {
+        "type": "action",
+        "description": "Input invalid data into the form fields (e.g., invalid email format, empty required fields)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify validation messages appear correctly and prevent form submission."
+      },
+      {
+        "type": "action",
+        "description": "Enter inputs with malicious scripts or code injection attempts."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm sanitization removes unsafe content and no scripts execute."
+      },
+      {
+        "type": "action",
+        "description": "Input valid data and submit the form."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that form submission proceeds and user is informed of success or any errors."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Contact Form Email Integration and End-to-End Flow",
+    "description": "Test the contact form submission backend integration using Resend and Nodemailer, ensuring email delivery success and handling failures gracefully.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Submit the contact form with valid data."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that an email is sent successfully via backend services."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the user receives a success notification."
+      },
+      {
+        "type": "action",
+        "description": "Simulate backend failure (e.g., disconnect email service)."
+      },
+      {
+        "type": "action",
+        "description": "Submit the form again."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that an error message is displayed and form submission is handled gracefully without crashing."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Navigation Menu Sticky Behavior and Responsiveness",
+    "description": "Ensure the header navigation menu sticks to the top on scroll and the responsive mobile menu works as expected.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the webpage and scroll down."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the header remains visible and sticks to the top."
+      },
+      {
+        "type": "action",
+        "description": "Resize the browser viewport to mobile size."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the responsive mobile menu icon appears."
+      },
+      {
+        "type": "action",
+        "description": "Open the mobile menu."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm menu items are displayed and clickable."
+      },
+      {
+        "type": "action",
+        "description": "Navigate using the menu links on both desktop and mobile."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify navigation to corresponding sections works correctly."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Footer Rendering and Social Links",
+    "description": "Verify the footer displays all expected social media links and copyright information.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Scroll to the bottom of any page."
+      },
+      {
+        "type": "assertion",
+        "description": "Check footer contains appropriate copyright text."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm all social media icons/links are present."
+      },
+      {
+        "type": "action",
+        "description": "Click on each social media link."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that each link opens the correct social profile in a new tab."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Custom Cursor Animation and Interaction",
+    "description": "Test the animated custom cursor follows mouse movement and interacts correctly with interactive elements.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Move the mouse cursor around the page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the custom cursor follows the pointer smoothly without lag."
+      },
+      {
+        "type": "action",
+        "description": "Hover over interactive elements such as buttons and links."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm custom cursor changes appearance as expected on hover states."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Smooth Page Transitions and Scroll Animations",
+    "description": "Ensure page transitions and scroll-triggered animations execute smoothly and without errors.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate between different pages or major sections."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify smooth animated transitions powered by Framer Motion."
+      },
+      {
+        "type": "action",
+        "description": "Scroll through pages and sections."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that scroll-triggered animations and parallax effects activate correctly and perform smoothly without frame drops."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Error Boundary Captures React Errors Gracefully",
+    "description": "Test that the React Error Boundary catches JavaScript runtime errors and displays a fallback UI without crashing the whole app.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Induce a React rendering error in a child component."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the error boundary captures the error and displays a user-friendly fallback UI."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that the rest of the app remains operable and functional."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Lazy Loading and Optimized Images",
+    "description": "Validate that images and components load lazily with loading indicators and appear correctly without layout shifting.",
+    "category": "performance",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load pages containing images and lazy loaded components."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm loading indicators display while content is fetching."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify images load lazily and appear optimized (responsive sizes, no flickering or broken images)."
+      },
+      {
+        "type": "action",
+        "description": "Simulate slow network conditions."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure user experience remains acceptable with placeholders and smooth loading."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Performance Metrics Meet Core Web Vitals Standards",
+    "description": "Ensure performance metrics such as Largest Contentful Paint, First Input Delay, and Cumulative Layout Shift meet the recommended Core Web Vitals thresholds.",
+    "category": "performance",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run performance monitoring tools under typical usage."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify performance metrics fall within acceptable Core Web Vitals standards."
+      },
+      {
+        "type": "action",
+        "description": "Test on multiple device types and network conditions."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm consistent performance results indicating memory usage is optimized and no leaks occur."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Analytics Tracking for User Interactions and Scroll Depth",
+    "description": "Check that custom analytics accurately captures user interactions, section views, and scroll depth data.",
+    "category": "security",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Perform user interactions including section navigation, clicks on interactive components, and scrolling."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that analytics events are triggered and logged correctly."
+      },
+      {
+        "type": "action",
+        "description": "Inspect analytics data output or reports."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm data reflects actual user actions without missing events."
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Serverless API Endpoints for Contact Form Rate Limiting and Robustness",
+    "description": "Test serverless API endpoints enforce rate limiting and handle failures robustly during contact form submissions.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Submit contact form repeatedly to trigger rate limiting."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that further requests are blocked or delayed with appropriate error responses."
+      },
+      {
+        "type": "action",
+        "description": "Simulate backend errors or network failures during API calls."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure the frontend shows meaningful error messages without crashing."
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Service Worker Offline Support and Caching",
+    "description": "Validate that the PWA service worker caches resources and provides offline support properly.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the website once with network enabled to allow caching."
+      },
+      {
+        "type": "action",
+        "description": "Go offline and reload the page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that cached contents load correctly even without network."
+      },
+      {
+        "type": "action",
+        "description": "Check that new content updates when network is restored."
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Interactive UI Components Behavior",
+    "description": "Verify functionality and animation of interactive components: Like Button, Certification Card, and Skill Badge.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to UI components on relevant sections."
+      },
+      {
+        "type": "action",
+        "description": "Click Like Button and observe animation and state change."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm Like Button toggles correctly and persists state if applicable."
+      },
+      {
+        "type": "assertion",
+        "description": "Inspect Certification Card displays correct information with expected layout and any animations."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify Skill Badge is rendered properly with correct skill text or icons."
+      }
+    ]
+  }
+]

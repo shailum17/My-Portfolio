@@ -63,7 +63,7 @@ class PerformanceMonitor {
       const clsObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         entries.forEach((entry) => {
-          const layoutShiftEntry = entry as any;
+          const layoutShiftEntry = entry as unknown as { value: number; hadRecentInput: boolean };
           if (!layoutShiftEntry.hadRecentInput) {
             clsValue += layoutShiftEntry.value;
           }
@@ -143,7 +143,7 @@ export const analyzeResourceTiming = () => {
   const resources = performance.getEntriesByType('resource');
   const slowResources = resources.filter((resource) => resource.duration > 1000);
   const largeResources = resources.filter((resource) => {
-    const transferSize = (resource as any).transferSize || 0;
+    const transferSize = (resource as unknown as { transferSize?: number }).transferSize || 0;
     return transferSize > 500 * 1024; // 500KB
   });
   
@@ -151,14 +151,14 @@ export const analyzeResourceTiming = () => {
     console.warn('🐌 Slow resources detected:', slowResources.map(r => ({
       name: r.name,
       duration: Math.round(r.duration),
-      size: Math.round((r as any).transferSize / 1024) + 'KB'
+      size: Math.round(((r as unknown as { transferSize?: number }).transferSize || 0) / 1024) + 'KB'
     })));
   }
 
   if (largeResources.length > 0) {
     console.warn('📦 Large resources detected:', largeResources.map(r => ({
       name: r.name,
-      size: Math.round((r as any).transferSize / 1024) + 'KB'
+      size: Math.round(((r as unknown as { transferSize?: number }).transferSize || 0) / 1024) + 'KB'
     })));
   }
 
@@ -168,7 +168,7 @@ export const analyzeResourceTiming = () => {
 // Memory usage monitoring
 export const getMemoryUsage = () => {
   if ('memory' in performance) {
-    const memory = (performance as any).memory;
+    const memory = (performance as { memory: { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number } }).memory;
     const usage = {
       used: Math.round(memory.usedJSHeapSize / 1048576),
       total: Math.round(memory.totalJSHeapSize / 1048576),
@@ -192,7 +192,7 @@ export const getMemoryUsage = () => {
 // Network information
 export const getNetworkInfo = () => {
   if ('connection' in navigator) {
-    const connection = (navigator as any).connection;
+    const connection = (navigator as { connection: import('../types/performance').NetworkInfo }).connection;
     if (process.env.NODE_ENV === 'development') {
       console.log('🌐 Network Info:', {
         effectiveType: connection.effectiveType,
@@ -237,15 +237,12 @@ export const assessCoreWebVitals = (metrics: Partial<PerformanceMetrics>) => {
 
 // Initialize performance monitoring
 let performanceMonitor: PerformanceMonitor | null = null;
+let isInitialized = false;
 
 export const initPerformanceMonitoring = () => {
-  if (process.env.NODE_ENV === 'development' && !performanceMonitor) {
+  if (process.env.NODE_ENV === 'development' && !performanceMonitor && !isInitialized) {
+    isInitialized = true;
     performanceMonitor = new PerformanceMonitor();
-    
-    // Cleanup on page unload
-    window.addEventListener('beforeunload', () => {
-      cleanupPerformanceMonitoring();
-    });
     
     // Measure resource timing after page load
     setTimeout(() => {
@@ -268,6 +265,7 @@ export const cleanupPerformanceMonitoring = () => {
   if (performanceMonitor) {
     performanceMonitor.dispose();
     performanceMonitor = null;
+    isInitialized = false;
   }
 };
 

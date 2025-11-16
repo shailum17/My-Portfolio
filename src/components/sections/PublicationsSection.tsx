@@ -60,7 +60,6 @@ const OptimizedImage = ({ src, alt, className }: { src: string; alt: string; cla
 };
 
 export default function PublicationsSection() {
-  const [expanded, setExpanded] = useState<{ [id: number]: boolean }>({});
   const [modalPub, setModalPub] = useState<null | typeof publicationsData[0]>(null);
 
   // Memoize publications data to prevent unnecessary re-renders

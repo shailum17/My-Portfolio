@@ -96,7 +96,7 @@ export default function ContactSection() {
         
         // Show error message to user
         if (errorData.errors && Array.isArray(errorData.errors)) {
-          const errorMessages = errorData.errors.map((err: any) => err.msg).join(', ');
+          const errorMessages = errorData.errors.map((err: { msg: string }) => err.msg).join(', ');
           setError(`Validation error: ${errorMessages}`);
         } else {
           setError(errorData.message || 'Failed to send message. Please try again.');

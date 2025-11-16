@@ -18,6 +18,7 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src'),
     },
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   build: {
     target: 'es2015',
@@ -48,15 +49,14 @@ export default defineConfig({
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split('.') || [];
-          const ext = info[info.length - 1];
-          if (/\.(css)$/.test(assetInfo.name || '')) {
+          const name = assetInfo.name || '';
+          if (/\.(css)$/.test(name)) {
             return 'assets/[name]-[hash].[ext]';
           }
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(name)) {
             return 'assets/images/[name]-[hash].[ext]';
           }
-          if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name || '')) {
+          if (/\.(woff2?|eot|ttf|otf)$/i.test(name)) {
             return 'assets/fonts/[name]-[hash].[ext]';
           }
           return 'assets/[name]-[hash].[ext]';
@@ -80,6 +80,14 @@ export default defineConfig({
     port: 5173,
     host: true,
     open: true,
+    headers: {
+      'X-Frame-Options': 'DENY',
+      'X-Content-Type-Options': 'nosniff',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+    },
+    hmr: {
+      port: 5173,
+    },
   },
   preview: {
     port: 4173,

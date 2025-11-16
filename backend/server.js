@@ -67,7 +67,7 @@ app.post('/api/contact', limiter, [
   body('phone')
     .optional()
     .trim()
-    .matches(/^[\+]?[1-9][\d]{0,15}$/)
+    .matches(/^[+]?[1-9][\d]{0,15}$/)
     .withMessage('Please provide a valid phone number'),
   
   body('message')
@@ -182,7 +182,7 @@ app.post('/api/contact', limiter, [
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(err.stack);
   res.status(500).json({
     success: false,

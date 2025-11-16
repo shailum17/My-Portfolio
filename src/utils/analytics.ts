@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { track } from '@vercel/analytics';
 
 // Custom analytics events for portfolio tracking
@@ -11,7 +12,7 @@ export const analytics = {
   trackProjectClick: (projectName: string, projectUrl?: string) => {
     track('project_click', { 
       project: projectName, 
-      url: projectUrl 
+      ...(projectUrl && { url: projectUrl })
     });
   },
 
@@ -46,7 +47,7 @@ export const analytics = {
   },
 
   // Track user engagement
-  trackEngagement: (action: string, details?: Record<string, any>) => {
+  trackEngagement: (action: string, details?: import('../types/analytics').AnalyticsDetails) => {
     track('user_engagement', { action, ...details });
   },
 
@@ -63,7 +64,7 @@ export const analytics = {
 
 // Hook for tracking scroll depth
 export const useScrollTracking = () => {
-  const trackScrollDepth = () => {
+  const trackScrollDepth = useCallback(() => {
     const scrollTop = window.pageYOffset;
     const docHeight = document.body.offsetHeight - window.innerHeight;
     const scrollPercent = Math.round((scrollTop / docHeight) * 100);
@@ -78,26 +79,26 @@ export const useScrollTracking = () => {
     } else if (scrollPercent >= 100) {
       analytics.trackScrollDepth(100);
     }
-  };
+  }, []);
 
   return { trackScrollDepth };
 };
 
 // Hook for tracking time on page
 export const useTimeTracking = () => {
-  const trackTimeOnPage = (startTime: number) => {
+  const trackTimeOnPage = useCallback((startTime: number) => {
     const timeSpent = Math.round((Date.now() - startTime) / 1000);
     analytics.trackTimeOnPage(timeSpent);
-  };
+  }, []);
 
   return { trackTimeOnPage };
 };
 
 // Intersection Observer for tracking section views
 export const useSectionTracking = () => {
-  const trackSectionView = (sectionName: string) => {
+  const trackSectionView = useCallback((sectionName: string) => {
     analytics.trackSectionView(sectionName);
-  };
+  }, []);
 
   return { trackSectionView };
 }; 

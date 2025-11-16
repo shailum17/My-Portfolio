@@ -23,16 +23,26 @@ export interface Certification {
 export const internships: Internship[] = [
   {
     id: 1,
+    title: "Front End Web Development",
+    company: "Edunet Foundation",
+    type: "Internship",
+    period: "August, 2025 - September, 2025",
+    location: "Remote",
+    skills: ["Web Development", "Landing Page Development", "HTML", "CSS", "JavaScript", "Responsive Design"],
+    image: "/assets/Internship/Edunet-Foundation.png",
+  },
+  {
+    id: 2,
     title: "Web Development Intern",
     company: "Vault of Code",
     type: "Internship",
     period: "August 2025 · 1 Months",
     location: "Remote",
-    skills: ["Web Development", "Landing Page Development", "HTML","CSS"," JavaScript","React","TypeScript","Tailwind CSS"],
+    skills: ["Web Development", "Landing Page Development", "HTML", "CSS", "JavaScript", "React", "TypeScript", "Tailwind CSS"],
     image: "/assets/Internship/vaultofcode.png",
   },
    {
-    id: 2,
+    id: 3,
     title: "Graphic Designer",
     company: "Amity Coding Club",
     type: "Full-time",
@@ -42,7 +52,7 @@ export const internships: Internship[] = [
     image: "/assets/Internship/amity_coding_club_logo.jpeg",
   },
   {
-    id: 3,
+    id: 4,
     title: "Graphic Design Intern",
     company: "EXPOSE TRENDZE Manufacturer of Leather Footwear",
     type: "Internship",
@@ -53,7 +63,7 @@ export const internships: Internship[] = [
     image: "/assets/Internship/expose-trendze-logo.png",
   },
   {
-    id: 4,
+    id: 5,
     title: "Intern",
     company: "Prodigy InfoTech",
     type: "Internship",
@@ -64,7 +74,7 @@ export const internships: Internship[] = [
     image: "/assets/Internship/prodigy_infotech_logo.jpeg",
   },
   {
-    id: 5,
+    id: 6,
     title: "Student Ambassador",
     company: "LetsUpgrade",
     type: "Part-time",
@@ -82,25 +92,25 @@ export const certifications: Certification[] = [
     "date": "February 2025",
     "image": "/assets/certificates/HACK-IITK-Certificate.svg"
   },
-  {
-    id: 2,
-    "title": "Fortinet Certified Fundamentals in Cybersecurity",
-    "issuer": "Fortinet",
-    "date": "October 2023",
-    "image": "/assets/certificates/Fortinet Certified Fundamentals in Cybersecurity.svg"
-  },
-  {
-      id: 3,
+    {
+      id: 2,
     "title": "Zscaler Cybersecurity Fundamentals Associate",
     "issuer": "Zscaler Academy",
     "date": "February 2024",
     "image": "/assets/certificates/Ascaler CyberSecurity Fundamentals Associates.svg"
   },
   {
-    id: 4,
+    id: 3,
     "title": "Zscaler Zero Trust Associate (ZTCA)",
     "issuer": "Zscaler Academy",
     "date": "February 2024",
     "image": "/assets/certificates/Zero Trust Cyber Associate (ZTCA).svg"
+  },
+  {
+    id: 4,
+    "title": "Front End Web Development",
+    "issuer": "EdunetFoundation",
+    "date": "September 2025",
+    "image": "/assets/certificates/AICTE_B3_PD_2001-3491-727.svg"
   }
 ];

@@ -159,10 +159,29 @@ module.exports = async (req, res) => {
       message: 'Thank you for your message! I will get back to you soon.'
     });
 
-  } catch (error) {
+  } catch (_error) {
+    // Enhanced error logging with context
+    const errorContext = {
+      endpoint: 'contact',
+      method: req.method,
+      timestamp: new Date().toISOString(),
+      error: _error.message || 'Unknown error',
+      emailConfigured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS),
+      stack: isDev ? _error.stack : undefined
+    };
+    
     if (isDev) {
-      console.error('Contact form error');
+      console.error('Contact form error:', errorContext);
+    } else {
+      // In production, log only essential info without stack trace
+      console.error('Contact form error:', {
+        endpoint: errorContext.endpoint,
+        timestamp: errorContext.timestamp,
+        error: errorContext.error,
+        emailConfigured: errorContext.emailConfigured
+      });
     }
+    
     res.status(500).json({
       success: false,
       message: 'Sorry, there was an error sending your message. Please try again later.'
