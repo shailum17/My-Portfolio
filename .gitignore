@@ -292,3 +292,5 @@ docs/.vuepress/dist/
 # Local development tools
 .local/
 dev/ 
+
+.kiro

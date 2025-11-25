@@ -109,6 +109,8 @@ export default function HeroSection() {
             <OptimizedImage
               src="/assets/Landing_page.png"
               alt="Portfolio Landing Page"
+              width={1024}
+              height={1024}
               className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain rounded-lg shadow-2xl"
               priority={true}
               sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"
