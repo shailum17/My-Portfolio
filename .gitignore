@@ -5,6 +5,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # Build outputs
 dist/
@@ -21,6 +24,8 @@ out/
 .env.test.local
 .env.production.local
 .env.*.local
+backend/.env
+backend/env.example
 
 # IDE and Editor files
 .vscode/
@@ -168,14 +173,16 @@ dist/
 *.tgz
 *.tar.gz
 
-# Local Netlify folder
-.netlify
-
 # Vercel
 .vercel
+.vercel.json
 
-# Sentry
-.sentryclirc
+# Deployment
+.netlify
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
 
 # Local development
 .env.local
@@ -228,24 +235,16 @@ docker-compose.yaml
 .terraform/
 .terraform.lock.hcl
 
-# Serverless
-.serverless/
-
-# Firebase
-.firebase/
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
-
-# PWA files
-sw.js
-workbox-*.js
+# Sentry
+.sentryclirc
 
 # Performance monitoring
+lighthouse-report.html
 web-vitals.js
 
 # Bundle analyzer
 bundle-analyzer-report.html
+dist/stats.html
 
 # Storybook
 storybook-static/
@@ -273,6 +272,9 @@ coverage/
 # Prettier
 .prettierignore
 
+# Stylelint
+.stylelintcache
+
 # Husky
 .husky/
 
@@ -291,6 +293,26 @@ docs/.vuepress/dist/
 
 # Local development tools
 .local/
-dev/ 
+dev/
 
-.kiro
+# Test and debug files
+testsprite_tests/
+*_tests/
+*.test.local.*
+tatus
+*.bat
+*FIX_SUMMARY.md
+*BUG_REPORT.md
+
+# Temporary and backup files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.swp
+*.swo
+*~
+
+# Kiro IDE
+.kiro/
