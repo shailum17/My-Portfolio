@@ -189,42 +189,49 @@ export default function PublicationsSection() {
       <AnimatePresence>
         {modalPub && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={(e) => { if (e.target === e.currentTarget) setModalPub(null); }}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => { if (e.target === e.currentTarget) setModalPub(null); }}
           >
             <motion.div
-              className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4 overflow-hidden max-h-[90vh] overflow-y-auto"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: 'spring', duration: 0.4 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full relative overflow-hidden max-h-[90vh] flex flex-col"
+              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              transition={{ type: 'spring', duration: 0.5 }}
             >
               <button
-                className="absolute top-3 right-3 text-gray-400 hover:text-primary text-2xl font-bold focus:outline-none transition-colors duration-200 z-10"
+                className="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/70 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold focus:outline-none transition-all duration-200 z-20 backdrop-blur-sm"
                 onClick={() => setModalPub(null)}
                 aria-label="Close modal"
               >
-                &times;
+                ✕
               </button>
-              <div className="w-44 h-44 flex-shrink-0 rounded-lg shadow bg-gray-100 overflow-hidden md:static md:row-span-2">
+              
+              {/* Image Header */}
+              <div className="w-full h-64 md:h-80 flex-shrink-0 bg-white overflow-hidden relative">
                 <OptimizedImage 
                   src={modalPub.image || fallbackImages[0]} 
                   alt={modalPub.title} 
-                  className="object-cover w-full h-full" 
+                  className="object-contain w-full h-full p-4" 
                 />
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                  <span className="text-sm font-semibold text-indigo-700">{modalPub.date}</span>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <span className="block text-md italic font-semibold text-gray-700/80 mb-2">{modalPub.date}</span>
-                <h3 className="text-2xl font-bold text-primary mb-2 break-words">{modalPub.title}</h3>
+
+              {/* Content Section */}
+              <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                <h3 className="text-3xl md:text-4xl font-bold text-primary mb-4 leading-tight">{modalPub.title}</h3>
+                
                 {modalPub.tags && (
-                  <div className="flex flex-wrap gap-2 mb-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {modalPub.tags.map((tag, i) => (
                       <motion.span
                         key={tag}
-                        className="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700 shadow"
+                        className="px-4 py-2 rounded-full text-sm font-semibold bg-indigo-100 text-indigo-700 shadow-sm hover:shadow-md transition-shadow duration-200"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 * i, duration: 0.3, type: 'spring' }}
@@ -234,21 +241,38 @@ export default function PublicationsSection() {
                     ))}
                   </div>
                 )}
-                <div className="text-sm text-gray-600 mb-2 break-words">{modalPub.authors}</div>
-                <div className="text-xs text-gray-500 mb-2 italic break-words">{modalPub.venue}</div>
+
+                <div className="bg-gray-50 rounded-lg p-4 mb-4 border-l-4 border-indigo-500">
+                  <div className="text-base font-semibold text-gray-800 mb-1">
+                    <span className="text-gray-600">Author:</span> {modalPub.authors}
+                  </div>
+                  <div className="text-sm text-gray-600 italic">
+                    <span className="font-semibold text-gray-700">Published in:</span> {modalPub.venue}
+                  </div>
+                </div>
+
                 {modalPub.description && (
-                  <p className="text-gray-700 mb-3 text-sm whitespace-pre-line break-words">{modalPub.description}</p>
+                  <div className="mb-6">
+                    <h4 className="text-lg font-bold text-gray-800 mb-3">Abstract</h4>
+                    <p className="text-gray-700 text-base leading-relaxed whitespace-pre-line">{modalPub.description}</p>
+                  </div>
                 )}
+
                 {modalPub.link && (
-                  <a 
-                    href={modalPub.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="inline-block text-primary font-semibold hover:underline text-sm transition-colors duration-200 hover:text-purple-600"
-                    aria-label={`View publication: ${modalPub.title}`}
-                  >
-                    Publication Link
-                  </a>
+                  <div className="flex gap-3 pt-4 border-t border-gray-200">
+                    <a 
+                      href={modalPub.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                      aria-label={`View publication: ${modalPub.title}`}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      View Full Publication
+                    </a>
+                  </div>
                 )}
               </div>
             </motion.div>
