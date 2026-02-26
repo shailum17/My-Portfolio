@@ -1,4 +1,4 @@
-import SocialLinks, { defaultSocialLinks } from '../ui/SocialLinks';
+import SocialLinks, { extendedSocialLinks } from '../ui/SocialLinks';
 import ContactInfo, { defaultContactDetails } from '../ui/ContactInfo';
 
 export default function Footer() {
@@ -33,11 +33,22 @@ export default function Footer() {
             <p className="text-gray-300 text-sm leading-relaxed">
               A passionate developer focused on creating innovative solutions and building amazing digital experiences.
             </p>
-            <SocialLinks 
-              links={defaultSocialLinks} 
-              variant="default" 
-              size="md"
-            />
+            <div className="flex flex-wrap gap-x-2 gap-y-2 max-w-[200px]">
+              {extendedSocialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-gray-400 hover:text-white transition-all duration-200 p-1.5 rounded-lg hover:bg-gray-800 ${link.color || ''}`}
+                  aria-label={link.name}
+                >
+                  <div className="w-5 h-5">
+                    {link.icon}
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Quick Links */}

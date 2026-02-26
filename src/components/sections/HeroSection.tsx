@@ -104,13 +104,13 @@ export default function HeroSection() {
             className="flex-shrink-0 flex flex-col items-center mb-6 sm:mb-8 md:mb-0"
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
+            transition={{ duration: 1, delay: 0.2 }}
           >
             <OptimizedImage
               src="/assets/Landing_page.png"
               alt="Portfolio Landing Page"
-              width={1024}
-              height={1024}
+              width={384}
+              height={384}
               className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain rounded-lg shadow-2xl"
               priority={true}
               sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"

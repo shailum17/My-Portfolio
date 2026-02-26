@@ -126,7 +126,11 @@ export default function OptimizedImage({
 
   // Intersection Observer for lazy loading
   useEffect(() => {
-    if (priority) return; // Skip lazy loading for priority images
+    if (priority) {
+      // For priority images, load immediately
+      setIsVisible(true);
+      return;
+    }
     
     const element = imgRef.current;
     if (!element) return;
@@ -139,8 +143,8 @@ export default function OptimizedImage({
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '100px' // Start loading 100px before entering viewport
+        threshold: 0.01,
+        rootMargin: '50px' // Start loading 50px before entering viewport
       }
     );
 
@@ -174,21 +178,10 @@ export default function OptimizedImage({
       transition={{ duration: 0.3 }}
     >
       {/* Blur placeholder - shown while loading */}
-      {!isLoaded && (
-        <div 
-          className="absolute inset-0 bg-cover bg-center blur-sm scale-110"
-          style={{
-            backgroundImage: `url(${blurPlaceholder})`,
-            filter: 'blur(20px)'
-          }}
-        />
-      )}
-      
-      {/* Loading spinner */}
       {!isLoaded && isVisible && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-          <div className="w-8 h-8 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
-        </div>
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse"
+        />
       )}
       
       {/* Responsive picture element with modern formats */}
